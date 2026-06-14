@@ -1,477 +1,3694 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ویژن‌تک | تلاقی استایل و تکنولوژی</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Vazirmatn', 'sans-serif'],
-                    },
-                    colors: {
-                        'brand-dark': '#0f172a', // Slate 900
-                        'brand-light': '#f8fafc', // Slate 50
-                        'accent-tech': '#6366f1', // Indigo
-                        'accent-fashion': '#d97706', // Amber
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Custom styles for things Tailwind is too verbose for */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .text-stroke {
-            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
-            color: transparent;
-        }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        /* Marquee Animation */
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(50%); } /* RTL Direction */
-        }
-        .marquee-content {
-            animation: scroll 20s linear infinite;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAZD Academy - سیستم بهره‌وری شخصی</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #00C9B8;
+  --primary-dark: #00a896;
+  --primary-light: #4dd9cc;
+  --gold: #D4A843;
+  --gold-light: #F0C96B;
+  --gold-glow: rgba(212,168,67,0.3);
+  --bg-deepest: #0A0A0C;
+  --bg-deep: #0F0F13;
+  --bg-base: #141418;
+  --bg-surface: #1C1C23;
+  --bg-elevated: #22222C;
+  --bg-card: #262632;
+  --bg-hover: #2E2E3C;
+  --border: rgba(255,255,255,0.06);
+  --border-strong: rgba(255,255,255,0.12);
+  --text-primary: #F0F0F5;
+  --text-secondary: #9090A8;
+  --text-muted: #5A5A70;
+  --text-accent: #00C9B8;
+  --glass: rgba(34,34,44,0.7);
+  --glass-border: rgba(0,201,184,0.15);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 30px rgba(0,201,184,0.15);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  --transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+  --transition-slow: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  --sidebar-width: 260px;
+  --header-h: 64px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior:smooth; }
+
+body {
+  font-family:'Vazirmatn',sans-serif;
+  background:var(--bg-deepest);
+  color:var(--text-primary);
+  direction:rtl;
+  text-align:right;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:var(--bg-surface); }
+::-webkit-scrollbar-thumb { background:var(--bg-hover); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:var(--primary); }
+
+/* ===== GOLDEN LIGHT ===== */
+#golden-light {
+  position:fixed; top:0; left:0; width:600px; height:600px;
+  background: radial-gradient(ellipse at 0% 0%, rgba(212,168,67,0.08) 0%, transparent 70%);
+  pointer-events:none; z-index:0; animation:goldenPulse 8s ease-in-out infinite;
+}
+@keyframes goldenPulse {
+  0%,100% { opacity:0.6; transform:scale(1) translate(0,0); }
+  50% { opacity:1; transform:scale(1.1) translate(20px,20px); }
+}
+
+/* ===== INTRO ANIMATION ===== */
+#intro-overlay {
+  position:fixed; inset:0; background:var(--bg-deepest);
+  display:flex; align-items:center; justify-content:center;
+  z-index:9999; flex-direction:column; gap:24px;
+}
+#intro-overlay.hidden { display:none; }
+
+.intro-logo-wrap {
+  position:relative; display:flex; align-items:center; gap:24px;
+  animation:introAppear 1s ease forwards;
+}
+@keyframes introAppear {
+  from { opacity:0; transform:translateY(30px) scale(0.9); }
+  to { opacity:1; transform:translateY(0) scale(1); }
+}
+
+.intro-logo-icon {
+  width:90px; height:90px; position:relative;
+}
+.intro-bars {
+  position:absolute; bottom:18px; left:50%; transform:translateX(-50%);
+  display:flex; gap:5px; align-items:flex-end;
+}
+.intro-bar {
+  width:10px; background:linear-gradient(180deg,#ccc,#888);
+  border-radius:2px 2px 0 0;
+  animation:barGrow 1.2s ease forwards;
+}
+.intro-bar:nth-child(1) { height:20px; animation-delay:0.3s; }
+.intro-bar:nth-child(2) { height:32px; animation-delay:0.5s; }
+.intro-bar:nth-child(3) { height:44px; animation-delay:0.7s; }
+@keyframes barGrow {
+  from { transform:scaleY(0); opacity:0; }
+  to { transform:scaleY(1); opacity:1; }
+}
+.intro-arrow {
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:0; height:0;
+  border-left:12px solid transparent; border-right:12px solid transparent;
+  border-bottom:16px solid #ccc;
+  animation:arrowFloat 1.5s ease 0.8s forwards; opacity:0;
+}
+@keyframes arrowFloat {
+  from { opacity:0; transform:translateX(-50%) translateY(10px); }
+  to { opacity:1; transform:translateX(-50%) translateY(0); }
+}
+.intro-swoosh {
+  position:absolute; bottom:8px; left:2px;
+  width:70px; height:30px;
+  border-bottom:6px solid var(--primary); border-radius:0 0 40px 0;
+  animation:swooshDraw 0.8s ease 1s forwards; opacity:0;
+  transform-origin:right bottom;
+}
+@keyframes swooshDraw {
+  from { opacity:0; transform:scaleX(0); }
+  to { opacity:1; transform:scaleX(1); }
+}
+.intro-divider {
+  width:2px; height:80px; background:linear-gradient(180deg,transparent,#888,transparent);
+  animation:dividerFade 0.5s ease 0.5s forwards; opacity:0;
+}
+@keyframes dividerFade { to { opacity:1; } }
+.intro-text { animation:introTextAppear 0.8s ease 0.6s forwards; opacity:0; }
+@keyframes introTextAppear { to { opacity:1; } }
+.intro-mazd {
+  font-size:3rem; font-weight:700; color:#fff;
+  letter-spacing:4px; line-height:1;
+  text-shadow:0 0 40px rgba(0,201,184,0.4);
+}
+.intro-academy { font-size:1.1rem; font-weight:300; color:#aaa; letter-spacing:8px; }
+.intro-tagline {
+  font-size:0.9rem; color:var(--text-muted); letter-spacing:1px;
+  animation:introTagline 0.8s ease 1.2s forwards; opacity:0;
+}
+@keyframes introTagline { to { opacity:1; } }
+.intro-bar-loader {
+  width:200px; height:2px; background:var(--bg-card); border-radius:1px; overflow:hidden;
+  animation:loaderAppear 0.5s ease 1s forwards; opacity:0;
+}
+@keyframes loaderAppear { to { opacity:1; } }
+.intro-bar-fill {
+  height:100%; background:linear-gradient(90deg,var(--primary),var(--gold));
+  border-radius:1px; animation:loaderFill 2s ease 1.2s forwards; width:0;
+}
+@keyframes loaderFill { to { width:100%; } }
+
+/* ===== GOLDEN SHIMMER ===== */
+.gold-shimmer {
+  position:fixed; inset:0; pointer-events:none; z-index:1;
+  background: linear-gradient(125deg, rgba(212,168,67,0.03) 0%, transparent 50%, rgba(0,201,184,0.03) 100%);
+  animation:shimmerMove 15s ease-in-out infinite alternate;
+}
+@keyframes shimmerMove {
+  from { opacity:0.5; }
+  to { opacity:1; }
+}
+
+/* ===== LAYOUT ===== */
+#app { display:flex; min-height:100vh; position:relative; z-index:2; }
+
+/* ===== SIDEBAR ===== */
+#sidebar {
+  width:var(--sidebar-width); background:var(--bg-surface);
+  border-left:1px solid var(--border);
+  display:flex; flex-direction:column;
+  position:fixed; top:0; right:0; bottom:0;
+  z-index:100; transition:var(--transition-slow);
+  overflow:hidden;
+}
+#sidebar.collapsed { width:72px; }
+
+.sidebar-logo {
+  padding:20px 16px; display:flex; align-items:center; gap:12px;
+  border-bottom:1px solid var(--border); min-height:var(--header-h);
+  overflow:hidden;
+}
+.sidebar-logo-icon {
+  width:36px; height:36px; flex-shrink:0;
+  position:relative;
+}
+.logo-bars-mini { position:absolute; bottom:4px; left:50%; transform:translateX(-50%); display:flex; gap:2px; align-items:flex-end; }
+.logo-bar-mini { width:4px; background:linear-gradient(180deg,#ccc,#888); border-radius:1px; }
+.logo-bar-mini:nth-child(1) { height:8px; }
+.logo-bar-mini:nth-child(2) { height:13px; }
+.logo-bar-mini:nth-child(3) { height:18px; }
+.logo-arrow-mini {
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:0; height:0;
+  border-left:5px solid transparent; border-right:5px solid transparent;
+  border-bottom:7px solid #ccc;
+}
+.logo-swoosh-mini {
+  position:absolute; bottom:2px; left:0;
+  width:30px; height:12px;
+  border-bottom:3px solid var(--primary); border-radius:0 0 20px 0;
+}
+
+.sidebar-logo-text { overflow:hidden; white-space:nowrap; }
+.sidebar-logo-text .brand { font-size:1rem; font-weight:700; color:#fff; letter-spacing:2px; }
+.sidebar-logo-text .brand-sub { font-size:0.65rem; color:var(--text-muted); letter-spacing:3px; }
+
+.sidebar-user {
+  padding:12px 16px; display:flex; align-items:center; gap:10px;
+  border-bottom:1px solid var(--border); cursor:pointer;
+  transition:var(--transition); overflow:hidden;
+}
+.sidebar-user:hover { background:var(--bg-elevated); }
+.avatar {
+  width:36px; height:36px; border-radius:50%; flex-shrink:0;
+  background:linear-gradient(135deg,var(--primary),var(--gold));
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:0.85rem; color:#fff;
+}
+.user-info { overflow:hidden; }
+.user-name { font-size:0.85rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.user-level { font-size:0.7rem; color:var(--primary); }
+
+.sidebar-nav { flex:1; overflow-y:auto; padding:8px 0; }
+
+.nav-section-title {
+  font-size:0.65rem; color:var(--text-muted); letter-spacing:2px;
+  padding:16px 16px 6px; text-transform:uppercase; overflow:hidden; white-space:nowrap;
+}
+
+.nav-item {
+  display:flex; align-items:center; gap:12px;
+  padding:10px 16px; cursor:pointer; transition:var(--transition);
+  border-radius:0; position:relative; overflow:hidden;
+  text-decoration:none; color:var(--text-secondary);
+  white-space:nowrap;
+}
+.nav-item:hover { background:var(--bg-elevated); color:var(--text-primary); }
+.nav-item.active {
+  background:rgba(0,201,184,0.1); color:var(--primary);
+  border-left:3px solid var(--primary);
+}
+.nav-icon {
+  width:20px; height:20px; flex-shrink:0; display:flex;
+  align-items:center; justify-content:center; font-size:1rem;
+}
+.nav-label { font-size:0.85rem; font-weight:500; }
+.nav-badge {
+  margin-right:auto; background:var(--primary); color:#fff;
+  font-size:0.65rem; font-weight:700; padding:2px 7px;
+  border-radius:var(--radius-full); min-width:20px; text-align:center;
+}
+
+.sidebar-footer {
+  padding:12px 8px; border-top:1px solid var(--border);
+}
+
+/* ===== MAIN ===== */
+#main {
+  flex:1; margin-right:var(--sidebar-width);
+  transition:var(--transition-slow); display:flex; flex-direction:column;
+}
+#main.expanded { margin-right:72px; }
+
+/* ===== HEADER ===== */
+#header {
+  height:var(--header-h); background:var(--glass);
+  backdrop-filter:blur(20px); border-bottom:1px solid var(--border);
+  display:flex; align-items:center; padding:0 24px; gap:16px;
+  position:sticky; top:0; z-index:50;
+}
+
+.header-toggle {
+  width:36px; height:36px; border:none; background:transparent;
+  color:var(--text-secondary); cursor:pointer; border-radius:var(--radius-sm);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem; transition:var(--transition);
+}
+.header-toggle:hover { background:var(--bg-elevated); color:var(--text-primary); }
+
+.header-date { color:var(--text-muted); font-size:0.8rem; }
+.header-score {
+  display:flex; align-items:center; gap:8px;
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius-full); padding:6px 14px;
+}
+.score-label { font-size:0.75rem; color:var(--text-muted); }
+.score-value { font-size:0.9rem; font-weight:700; color:var(--primary); }
+
+.header-search {
+  flex:1; max-width:320px; margin-right:auto;
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius-full); padding:8px 16px;
+  display:flex; align-items:center; gap:8px; transition:var(--transition);
+  cursor:text;
+}
+.header-search:focus-within { border-color:var(--primary); }
+.header-search input {
+  flex:1; border:none; background:transparent; color:var(--text-primary);
+  font-family:'Vazirmatn',sans-serif; font-size:0.85rem; outline:none;
+  direction:rtl;
+}
+.header-search input::placeholder { color:var(--text-muted); }
+
+.header-notif {
+  width:36px; height:36px; border:none; background:var(--bg-card);
+  border:1px solid var(--border); color:var(--text-secondary);
+  border-radius:var(--radius-sm); cursor:pointer; display:flex;
+  align-items:center; justify-content:center; transition:var(--transition);
+  font-size:1rem; position:relative;
+}
+.header-notif:hover { border-color:var(--primary); color:var(--primary); }
+.notif-dot {
+  width:8px; height:8px; background:var(--gold); border-radius:50%;
+  position:absolute; top:6px; left:6px;
+}
+
+/* ===== CONTENT ===== */
+#content { flex:1; padding:24px; overflow-y:auto; }
+
+/* ===== PAGES ===== */
+.page { display:none; }
+.page.active { display:block; animation:pageIn 0.3s ease; }
+@keyframes pageIn {
+  from { opacity:0; transform:translateY(8px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+/* ===== SECTION TITLES ===== */
+.section-header { margin-bottom:20px; }
+.section-title { font-size:1.4rem; font-weight:700; color:var(--text-primary); }
+.section-sub { font-size:0.85rem; color:var(--text-muted); margin-top:4px; }
+
+/* ===== CARDS ===== */
+.card {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius-lg); padding:20px;
+  transition:var(--transition);
+}
+.card:hover { border-color:var(--border-strong); }
+.card-glass {
+  background:var(--glass); backdrop-filter:blur(20px);
+  border:1px solid var(--glass-border);
+}
+.card-gold { border-color:rgba(212,168,67,0.2); }
+.card-primary { border-color:rgba(0,201,184,0.2); }
+
+/* ===== GRID ===== */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+
+/* ===== HOME PAGE ===== */
+.welcome-banner {
+  background:linear-gradient(135deg,var(--bg-card) 0%,rgba(0,201,184,0.08) 100%);
+  border:1px solid var(--glass-border); border-radius:var(--radius-xl);
+  padding:28px; margin-bottom:24px; position:relative; overflow:hidden;
+}
+.welcome-glow {
+  position:absolute; top:-50px; left:-50px; width:200px; height:200px;
+  background:radial-gradient(circle,rgba(0,201,184,0.1),transparent);
+  pointer-events:none;
+}
+.welcome-title { font-size:1.6rem; font-weight:700; color:#fff; }
+.welcome-title span { color:var(--primary); }
+.welcome-sub { font-size:0.9rem; color:var(--text-secondary); margin-top:6px; }
+.welcome-quote {
+  margin-top:16px; padding:12px 16px;
+  background:rgba(212,168,67,0.08); border-right:3px solid var(--gold);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  font-size:0.85rem; color:var(--gold-light); font-style:italic;
+}
+
+/* Progress Ring */
+.progress-ring-wrap {
+  display:flex; align-items:center; gap:20px;
+}
+.ring-svg { transform:rotate(-90deg); }
+.ring-bg { fill:none; stroke:var(--bg-elevated); stroke-width:8; }
+.ring-fill { fill:none; stroke-width:8; stroke-linecap:round; transition:stroke-dashoffset 1s ease; }
+.ring-text { transform:rotate(90deg); font-family:'Vazirmatn',sans-serif; }
+.ring-pct { font-size:0.95rem; font-weight:700; fill:var(--text-primary); }
+.ring-label { font-size:0.5rem; fill:var(--text-muted); }
+
+/* Stats Row */
+.stat-pill {
+  background:var(--bg-elevated); border:1px solid var(--border);
+  border-radius:var(--radius-full); padding:6px 14px;
+  display:flex; align-items:center; gap:6px;
+}
+.stat-pill-val { font-size:0.85rem; font-weight:700; }
+.stat-pill-lbl { font-size:0.75rem; color:var(--text-muted); }
+
+/* Top3 */
+.top3-item {
+  background:var(--bg-elevated); border:1px solid var(--border);
+  border-radius:var(--radius-md); padding:14px;
+  display:flex; align-items:center; gap:12px;
+  cursor:pointer; transition:var(--transition);
+}
+.top3-item:hover { border-color:var(--primary); }
+.top3-item.done { opacity:0.6; }
+.top3-num {
+  width:28px; height:28px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:0.85rem;
+}
+.top3-num.n1 { background:linear-gradient(135deg,var(--gold),#a07830); color:#fff; }
+.top3-num.n2 { background:linear-gradient(135deg,#A8A8B8,#606070); color:#fff; }
+.top3-num.n3 { background:linear-gradient(135deg,#CD7F32,#8B5A20); color:#fff; }
+.top3-input {
+  flex:1; background:transparent; border:none; font-family:'Vazirmatn',sans-serif;
+  font-size:0.9rem; color:var(--text-primary); direction:rtl; outline:none;
+}
+.top3-check {
+  width:22px; height:22px; border:2px solid var(--border-strong); border-radius:50%;
+  cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  transition:var(--transition); color:transparent;
+}
+.top3-check.checked { background:var(--primary); border-color:var(--primary); color:#fff; }
+
+/* Task List */
+.task-section { margin-bottom:20px; }
+.task-section-header {
+  display:flex; align-items:center; gap:8px; margin-bottom:12px;
+  padding-bottom:8px; border-bottom:1px solid var(--border);
+}
+.task-section-icon { font-size:1rem; }
+.task-section-title { font-size:0.9rem; font-weight:600; }
+.task-section-count {
+  font-size:0.75rem; color:var(--text-muted);
+  background:var(--bg-elevated); padding:2px 8px; border-radius:var(--radius-full);
+}
+
+.task-item {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; background:var(--bg-elevated); border:1px solid var(--border);
+  border-radius:var(--radius-md); margin-bottom:8px;
+  transition:var(--transition); cursor:default;
+  animation:taskIn 0.2s ease;
+}
+@keyframes taskIn { from { opacity:0; transform:translateX(10px); } to { opacity:1; transform:translateX(0); } }
+.task-item:hover { border-color:var(--border-strong); }
+.task-item.done { opacity:0.5; }
+.task-cb {
+  width:20px; height:20px; border:2px solid var(--border-strong);
+  border-radius:50%; cursor:pointer; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  transition:var(--transition); color:transparent; font-size:0.7rem;
+}
+.task-cb.checked { background:var(--primary); border-color:var(--primary); color:#fff; }
+.task-cb.must.checked { background:#ef4444; border-color:#ef4444; }
+.task-text {
+  flex:1; font-size:0.85rem; background:transparent; border:none;
+  font-family:'Vazirmatn',sans-serif; color:var(--text-primary); direction:rtl; outline:none;
+}
+.task-text.strikethrough { text-decoration:line-through; color:var(--text-muted); }
+.task-del {
+  width:24px; height:24px; border:none; background:transparent;
+  color:var(--text-muted); cursor:pointer; border-radius:var(--radius-sm);
+  display:flex; align-items:center; justify-content:center; font-size:0.9rem;
+  opacity:0; transition:var(--transition);
+}
+.task-item:hover .task-del { opacity:1; }
+.task-del:hover { color:#ef4444; }
+
+.add-task-btn {
+  width:100%; padding:8px; background:transparent; border:1px dashed var(--border);
+  color:var(--text-muted); border-radius:var(--radius-md); cursor:pointer;
+  font-family:'Vazirmatn',sans-serif; font-size:0.82rem; transition:var(--transition);
+  display:flex; align-items:center; gap:6px; justify-content:center;
+}
+.add-task-btn:hover { border-color:var(--primary); color:var(--primary); background:rgba(0,201,184,0.04); }
+
+/* Mood */
+.mood-grid { display:flex; gap:10px; flex-wrap:wrap; }
+.mood-btn {
+  flex:1; min-width:60px; padding:10px;
+  background:var(--bg-elevated); border:2px solid var(--border);
+  border-radius:var(--radius-md); cursor:pointer; transition:var(--transition);
+  text-align:center; font-size:1.4rem; display:flex; flex-direction:column;
+  align-items:center; gap:4px;
+}
+.mood-btn span { font-size:0.7rem; color:var(--text-muted); font-family:'Vazirmatn',sans-serif; }
+.mood-btn:hover { transform:scale(1.05); border-color:var(--primary); }
+.mood-btn.selected { border-color:var(--primary); background:rgba(0,201,184,0.1); }
+
+/* Water tracker */
+.water-track { display:flex; gap:6px; flex-wrap:wrap; }
+.water-cup {
+  width:36px; height:44px; border:2px solid var(--border);
+  border-radius:0 0 8px 8px; border-top:none;
+  cursor:pointer; transition:var(--transition); position:relative; overflow:hidden;
+  display:flex; align-items:flex-end;
+}
+.water-cup.filled { border-color:var(--primary); }
+.water-cup::after {
+  content:''; position:absolute; bottom:0; left:0; right:0;
+  height:0%; background:linear-gradient(180deg,rgba(0,201,184,0.4),rgba(0,201,184,0.8));
+  transition:height 0.4s ease;
+}
+.water-cup.filled::after { height:80%; }
+.water-cup:hover { border-color:var(--primary); }
+
+/* Pomodoro */
+.pomo-ring { position:relative; display:inline-block; }
+.pomo-time {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  font-size:1.4rem; font-weight:700; color:#fff; text-align:center;
+}
+.pomo-label { font-size:0.65rem; color:var(--text-muted); }
+.pomo-btns { display:flex; gap:8px; justify-content:center; margin-top:12px; }
+.pomo-btn {
+  padding:8px 20px; border:none; border-radius:var(--radius-full);
+  cursor:pointer; font-family:'Vazirmatn',sans-serif; font-size:0.85rem;
+  font-weight:600; transition:var(--transition);
+}
+.pomo-btn.start { background:var(--primary); color:#fff; }
+.pomo-btn.start:hover { background:var(--primary-dark); }
+.pomo-btn.reset { background:var(--bg-elevated); color:var(--text-secondary); }
+.pomo-btn.reset:hover { background:var(--bg-hover); }
+
+/* Habit tracker */
+.habit-item {
+  display:flex; align-items:center; gap:12px;
+  padding:12px; background:var(--bg-elevated); border:1px solid var(--border);
+  border-radius:var(--radius-md); margin-bottom:8px; transition:var(--transition);
+}
+.habit-item:hover { border-color:var(--border-strong); }
+.habit-icon { font-size:1.3rem; flex-shrink:0; }
+.habit-info { flex:1; min-width:0; }
+.habit-name { font-size:0.88rem; font-weight:500; }
+.habit-streak { font-size:0.72rem; color:var(--gold); display:flex; align-items:center; gap:4px; }
+.habit-bar-wrap { height:4px; background:var(--bg-card); border-radius:2px; margin-top:6px; }
+.habit-bar-fill { height:100%; background:linear-gradient(90deg,var(--primary),var(--primary-light)); border-radius:2px; transition:width 0.5s ease; }
+.habit-dots { display:flex; gap:4px; }
+.habit-dot {
+  width:10px; height:10px; border-radius:50%; cursor:pointer;
+  background:var(--bg-card); border:1px solid var(--border); transition:var(--transition);
+}
+.habit-dot.done { background:var(--primary); border-color:var(--primary); }
+.habit-dot:hover { border-color:var(--primary); }
+.habit-check {
+  width:28px; height:28px; border:2px solid var(--border); border-radius:50%;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:var(--transition); color:transparent; font-size:0.8rem; flex-shrink:0;
+}
+.habit-check.done { background:var(--primary); border-color:var(--primary); color:#fff; }
+
+/* Reflection */
+.reflection-area {
+  width:100%; min-height:120px; background:var(--bg-elevated);
+  border:1px solid var(--border); border-radius:var(--radius-md);
+  padding:14px; font-family:'Vazirmatn',sans-serif; font-size:0.87rem;
+  color:var(--text-primary); direction:rtl; outline:none; resize:vertical;
+  transition:var(--transition);
+}
+.reflection-area:focus { border-color:var(--primary); }
+
+/* Routine */
+.routine-item {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; background:var(--bg-elevated); border:1px solid var(--border);
+  border-radius:var(--radius-md); margin-bottom:6px; transition:var(--transition);
+}
+.routine-item.done { opacity:0.6; }
+.routine-check {
+  width:20px; height:20px; border:2px solid var(--border-strong); border-radius:50%;
+  cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  transition:var(--transition); color:transparent; font-size:0.7rem;
+}
+.routine-check.done { background:var(--gold); border-color:var(--gold); color:#fff; }
+
+/* ===== CALENDAR PAGE ===== */
+.cal-nav { display:flex; align-items:center; gap:16px; justify-content:center; margin-bottom:20px; }
+.cal-nav-btn {
+  width:36px; height:36px; border:1px solid var(--border); background:var(--bg-card);
+  color:var(--text-secondary); border-radius:var(--radius-sm); cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:var(--transition);
+  font-size:0.9rem;
+}
+.cal-nav-btn:hover { border-color:var(--primary); color:var(--primary); }
+.cal-month-title { font-size:1.1rem; font-weight:600; min-width:140px; text-align:center; }
+.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+.cal-day-header {
+  text-align:center; font-size:0.75rem; color:var(--text-muted);
+  padding:8px 0; font-weight:500;
+}
+.cal-day {
+  aspect-ratio:1; border:1px solid var(--border); border-radius:var(--radius-sm);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  cursor:pointer; transition:var(--transition); font-size:0.85rem;
+  position:relative; overflow:hidden;
+}
+.cal-day:hover { border-color:var(--primary); }
+.cal-day.today { border-color:var(--primary); color:var(--primary); font-weight:700; }
+.cal-day.selected { background:rgba(0,201,184,0.15); border-color:var(--primary); }
+.cal-day.empty { opacity:0; pointer-events:none; }
+.cal-day.green { background:rgba(34,197,94,0.1); border-color:rgba(34,197,94,0.3); }
+.cal-day.yellow { background:rgba(234,179,8,0.1); border-color:rgba(234,179,8,0.3); }
+.cal-day.orange { background:rgba(249,115,22,0.1); border-color:rgba(249,115,22,0.3); }
+.cal-day.red { background:rgba(239,68,68,0.1); border-color:rgba(239,68,68,0.3); }
+.cal-day-num { font-size:0.85rem; line-height:1; }
+.cal-day-score { font-size:0.6rem; color:var(--text-muted); }
+.cal-dot {
+  width:4px; height:4px; border-radius:50%;
+  position:absolute; bottom:4px;
+}
+
+/* ===== ANALYTICS PAGE ===== */
+.chart-card { padding:20px; }
+.chart-title { font-size:0.9rem; font-weight:600; margin-bottom:16px; color:var(--text-secondary); }
+canvas { width:100% !important; }
+.heatmap-grid {
+  display:grid; grid-template-columns:repeat(52,1fr); gap:2px;
+}
+.heatmap-cell {
+  aspect-ratio:1; border-radius:2px; background:var(--bg-elevated);
+  transition:var(--transition);
+}
+.heatmap-cell:hover { transform:scale(1.3); }
+.heatmap-cell.l1 { background:rgba(0,201,184,0.2); }
+.heatmap-cell.l2 { background:rgba(0,201,184,0.4); }
+.heatmap-cell.l3 { background:rgba(0,201,184,0.6); }
+.heatmap-cell.l4 { background:rgba(0,201,184,0.9); }
+
+/* ===== GOALS PAGE ===== */
+.goal-item {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius-lg); padding:20px; margin-bottom:16px;
+  transition:var(--transition);
+}
+.goal-item:hover { border-color:var(--border-strong); }
+.goal-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.goal-icon-wrap {
+  width:44px; height:44px; border-radius:var(--radius-md);
+  background:rgba(0,201,184,0.1); display:flex; align-items:center;
+  justify-content:center; font-size:1.3rem; flex-shrink:0;
+}
+.goal-title { font-size:1rem; font-weight:600; }
+.goal-deadline { font-size:0.75rem; color:var(--text-muted); margin-top:2px; }
+.goal-pct { margin-right:auto; font-size:1.1rem; font-weight:700; color:var(--primary); }
+.goal-bar-wrap { height:6px; background:var(--bg-elevated); border-radius:3px; margin-bottom:12px; }
+.goal-bar-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,var(--primary),var(--gold)); transition:width 0.6s ease; }
+.milestone-list { display:flex; flex-direction:column; gap:6px; }
+.milestone-item {
+  display:flex; align-items:center; gap:8px; font-size:0.82rem;
+  color:var(--text-secondary); padding:6px; border-radius:var(--radius-sm);
+  transition:var(--transition); cursor:pointer;
+}
+.milestone-item:hover { background:var(--bg-elevated); }
+.milestone-check {
+  width:16px; height:16px; border:1.5px solid var(--border-strong); border-radius:50%;
+  flex-shrink:0; display:flex; align-items:center; justify-content:center;
+  font-size:0.6rem; transition:var(--transition); color:transparent;
+}
+.milestone-check.done { background:var(--primary); border-color:var(--primary); color:#fff; }
+
+/* ===== ACHIEVEMENTS ===== */
+.xp-bar-outer {
+  height:10px; background:var(--bg-elevated); border-radius:5px; margin:8px 0;
+}
+.xp-bar-inner {
+  height:100%; border-radius:5px;
+  background:linear-gradient(90deg,var(--gold),var(--primary));
+  transition:width 0.6s ease;
+}
+.badge-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(100px,1fr)); gap:12px; }
+.badge-card {
+  background:var(--bg-elevated); border:1px solid var(--border);
+  border-radius:var(--radius-md); padding:14px; text-align:center;
+  transition:var(--transition); cursor:default;
+}
+.badge-card:hover { border-color:var(--gold); transform:translateY(-2px); }
+.badge-card.locked { opacity:0.4; filter:grayscale(1); }
+.badge-icon { font-size:1.8rem; margin-bottom:6px; }
+.badge-name { font-size:0.72rem; color:var(--text-secondary); }
+
+/* ===== FOCUS MODE ===== */
+#focus-overlay {
+  position:fixed; inset:0; background:rgba(10,10,12,0.97);
+  z-index:1000; display:none; align-items:center; justify-content:center;
+  flex-direction:column; gap:24px;
+}
+#focus-overlay.open { display:flex; }
+.focus-quote { font-size:0.9rem; color:var(--text-muted); text-align:center; max-width:400px; font-style:italic; }
+.focus-timer { font-size:5rem; font-weight:200; color:#fff; letter-spacing:4px; }
+.focus-label { font-size:0.8rem; color:var(--text-muted); letter-spacing:3px; }
+.focus-session { font-size:0.85rem; color:var(--primary); }
+.focus-btns { display:flex; gap:12px; }
+.focus-btn {
+  padding:10px 28px; border:none; border-radius:var(--radius-full);
+  font-family:'Vazirmatn',sans-serif; font-size:0.9rem; font-weight:600; cursor:pointer;
+  transition:var(--transition);
+}
+.focus-close {
+  position:absolute; top:24px; left:24px;
+  background:transparent; border:1px solid var(--border); color:var(--text-muted);
+  width:40px; height:40px; border-radius:50%; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:var(--transition);
+}
+.focus-close:hover { border-color:var(--primary); color:var(--primary); }
+
+/* ===== SETTINGS ===== */
+.setting-row {
+  display:flex; align-items:center; gap:16px;
+  padding:16px 0; border-bottom:1px solid var(--border);
+}
+.setting-row:last-child { border-bottom:none; }
+.setting-info { flex:1; }
+.setting-title { font-size:0.9rem; font-weight:500; }
+.setting-desc { font-size:0.78rem; color:var(--text-muted); margin-top:2px; }
+.toggle {
+  width:44px; height:24px; border-radius:12px; background:var(--bg-elevated);
+  border:1px solid var(--border); cursor:pointer; position:relative; transition:var(--transition);
+}
+.toggle.on { background:var(--primary); border-color:var(--primary); }
+.toggle-knob {
+  width:18px; height:18px; border-radius:50%; background:#fff;
+  position:absolute; top:2px; right:2px; transition:var(--transition);
+}
+.toggle.on .toggle-knob { right:22px; }
+.setting-btn {
+  padding:8px 20px; border:1px solid var(--border); background:transparent;
+  color:var(--text-secondary); border-radius:var(--radius-md); cursor:pointer;
+  font-family:'Vazirmatn',sans-serif; font-size:0.83rem; transition:var(--transition);
+}
+.setting-btn:hover { border-color:var(--primary); color:var(--primary); }
+.setting-btn.danger:hover { border-color:#ef4444; color:#ef4444; }
+
+/* ===== WEEKLY REVIEW ===== */
+.review-stat-card {
+  background:var(--bg-elevated); border:1px solid var(--border);
+  border-radius:var(--radius-md); padding:16px; text-align:center;
+}
+.review-stat-val { font-size:1.8rem; font-weight:700; color:var(--primary); }
+.review-stat-lbl { font-size:0.78rem; color:var(--text-muted); margin-top:4px; }
+
+/* ===== SUPPORT ===== */
+.support-form-group { margin-bottom:16px; }
+.support-label { font-size:0.82rem; color:var(--text-secondary); margin-bottom:6px; display:block; }
+.support-input, .support-select, .support-textarea {
+  width:100%; background:var(--bg-elevated); border:1px solid var(--border);
+  border-radius:var(--radius-md); padding:10px 14px;
+  font-family:'Vazirmatn',sans-serif; font-size:0.88rem; color:var(--text-primary);
+  direction:rtl; outline:none; transition:var(--transition);
+}
+.support-input:focus, .support-select:focus, .support-textarea:focus { border-color:var(--primary); }
+.support-textarea { min-height:120px; resize:vertical; }
+.support-select option { background:var(--bg-card); }
+.support-msg-card {
+  background:var(--bg-elevated); border:1px solid var(--border);
+  border-radius:var(--radius-md); padding:14px; margin-bottom:10px;
+  transition:var(--transition);
+}
+.support-msg-card:hover { border-color:var(--border-strong); }
+.support-msg-header { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.support-status {
+  font-size:0.7rem; padding:2px 10px; border-radius:var(--radius-full); font-weight:600;
+}
+.support-status.new { background:rgba(59,130,246,0.15); color:#60a5fa; }
+.support-status.reviewing { background:rgba(234,179,8,0.15); color:#fbbf24; }
+.support-status.answered { background:rgba(34,197,94,0.15); color:#4ade80; }
+.support-status.closed { background:rgba(107,114,128,0.15); color:#9ca3af; }
+
+/* ===== AUTH ===== */
+#auth-screen {
+  position:fixed; inset:0; background:var(--bg-deepest);
+  display:flex; align-items:center; justify-content:center;
+  z-index:500; padding:20px;
+}
+#auth-screen.hidden { display:none; }
+.auth-card {
+  background:var(--bg-surface); border:1px solid var(--border);
+  border-radius:var(--radius-xl); padding:36px; width:100%; max-width:400px;
+  box-shadow:var(--shadow-lg);
+}
+.auth-logo { text-align:center; margin-bottom:28px; }
+.auth-logo-icon { font-size:2.5rem; margin-bottom:8px; }
+.auth-title { font-size:1.3rem; font-weight:700; margin-bottom:4px; }
+.auth-sub { font-size:0.82rem; color:var(--text-muted); }
+.auth-tabs { display:flex; background:var(--bg-card); border-radius:var(--radius-md); padding:4px; margin-bottom:24px; }
+.auth-tab {
+  flex:1; padding:8px; text-align:center; cursor:pointer; border-radius:var(--radius-sm);
+  font-size:0.85rem; transition:var(--transition); color:var(--text-muted);
+}
+.auth-tab.active { background:var(--bg-elevated); color:var(--text-primary); font-weight:600; }
+.auth-form-group { margin-bottom:16px; }
+.auth-label { display:block; font-size:0.82rem; color:var(--text-secondary); margin-bottom:6px; }
+.auth-input {
+  width:100%; background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius-md); padding:11px 14px;
+  font-family:'Vazirmatn',sans-serif; font-size:0.9rem; color:var(--text-primary);
+  direction:rtl; outline:none; transition:var(--transition);
+}
+.auth-input:focus { border-color:var(--primary); }
+.auth-error {
+  background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3);
+  border-radius:var(--radius-sm); padding:10px 14px;
+  color:#f87171; font-size:0.83rem; margin-bottom:16px; display:none;
+}
+.auth-error.show { display:block; }
+.auth-submit {
+  width:100%; padding:12px; background:var(--primary); color:#fff;
+  border:none; border-radius:var(--radius-md); font-family:'Vazirmatn',sans-serif;
+  font-size:0.95rem; font-weight:600; cursor:pointer; transition:var(--transition);
+}
+.auth-submit:hover { background:var(--primary-dark); transform:translateY(-1px); }
+.auth-switch { text-align:center; margin-top:16px; font-size:0.82rem; color:var(--text-muted); }
+.auth-switch a { color:var(--primary); cursor:pointer; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding:10px 20px; border-radius:var(--radius-md); font-family:'Vazirmatn',sans-serif;
+  font-size:0.87rem; font-weight:600; cursor:pointer; transition:var(--transition);
+  border:none; display:inline-flex; align-items:center; gap:6px;
+}
+.btn-primary { background:var(--primary); color:#fff; }
+.btn-primary:hover { background:var(--primary-dark); transform:translateY(-1px); }
+.btn-secondary { background:var(--bg-elevated); color:var(--text-secondary); border:1px solid var(--border); }
+.btn-secondary:hover { border-color:var(--primary); color:var(--primary); }
+.btn-gold { background:linear-gradient(135deg,var(--gold),#a07830); color:#fff; }
+.btn-danger { background:rgba(239,68,68,0.1); color:#f87171; border:1px solid rgba(239,68,68,0.2); }
+.btn-danger:hover { background:rgba(239,68,68,0.2); }
+.btn-sm { padding:6px 14px; font-size:0.8rem; }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.7);
+  z-index:800; display:none; align-items:center; justify-content:center; padding:20px;
+}
+.modal-overlay.open { display:flex; }
+.modal-box {
+  background:var(--bg-surface); border:1px solid var(--border);
+  border-radius:var(--radius-xl); padding:28px; width:100%; max-width:480px;
+  animation:modalIn 0.25s ease; max-height:90vh; overflow-y:auto;
+}
+@keyframes modalIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
+.modal-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+.modal-title { font-size:1.1rem; font-weight:700; }
+.modal-close { margin-right:auto; background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:1.1rem; }
+.modal-close:hover { color:var(--text-primary); }
+.modal-footer { display:flex; gap:8px; justify-content:flex-end; margin-top:20px; }
+
+/* ===== TOAST ===== */
+#toast-container {
+  position:fixed; top:80px; left:24px; z-index:2000;
+  display:flex; flex-direction:column; gap:8px;
+}
+.toast {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius-md); padding:12px 16px;
+  display:flex; align-items:center; gap:10px;
+  animation:toastIn 0.3s ease; font-size:0.85rem; max-width:300px;
+  box-shadow:var(--shadow-md);
+}
+@keyframes toastIn { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:translateX(0); } }
+.toast.success { border-color:rgba(34,197,94,0.3); }
+.toast.error { border-color:rgba(239,68,68,0.3); }
+.toast.info { border-color:rgba(0,201,184,0.3); }
+.toast-icon { font-size:1rem; }
+.toast.success .toast-icon { color:#4ade80; }
+.toast.error .toast-icon { color:#f87171; }
+.toast.info .toast-icon { color:var(--primary); }
+.toast-exit { animation:toastOut 0.3s ease forwards; }
+@keyframes toastOut { to { opacity:0; transform:translateX(-20px); } }
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align:center; padding:48px 24px; color:var(--text-muted);
+}
+.empty-icon { font-size:3rem; margin-bottom:12px; opacity:0.5; }
+.empty-title { font-size:0.95rem; font-weight:500; margin-bottom:8px; color:var(--text-secondary); }
+.empty-desc { font-size:0.82rem; }
+
+/* ===== PROFILE ===== */
+.profile-avatar-lg {
+  width:80px; height:80px; border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--gold));
+  display:flex; align-items:center; justify-content:center;
+  font-size:2rem; font-weight:700; color:#fff; margin:0 auto 16px;
+}
+
+/* ===== NOT-TODO LIST ===== */
+.nottodo-item {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; background:rgba(239,68,68,0.05);
+  border:1px solid rgba(239,68,68,0.15); border-radius:var(--radius-md);
+  margin-bottom:8px;
+}
+.nottodo-icon { color:#f87171; font-size:0.9rem; }
+.nottodo-text {
+  flex:1; background:transparent; border:none; font-family:'Vazirmatn',sans-serif;
+  font-size:0.85rem; color:var(--text-primary); direction:rtl; outline:none;
+}
+.nottodo-del {
+  background:transparent; border:none; color:var(--text-muted);
+  cursor:pointer; opacity:0; transition:var(--transition);
+}
+.nottodo-item:hover .nottodo-del { opacity:1; }
+.nottodo-del:hover { color:#ef4444; }
+
+/* ===== MOBILE MENU ===== */
+#mobile-overlay {
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6);
+  z-index:99; backdrop-filter:blur(4px);
+}
+#mobile-overlay.open { display:block; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  #sidebar {
+    width:var(--sidebar-width) !important;
+    transform:translateX(100%); transition:transform 0.3s ease;
+  }
+  #sidebar.mobile-open { transform:translateX(0); }
+  #main { margin-right:0 !important; }
+  .grid-4 { grid-template-columns:1fr 1fr; }
+  .grid-3 { grid-template-columns:1fr 1fr; }
+}
+@media (max-width: 600px) {
+  #content { padding:16px; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns:1fr; }
+  .welcome-title { font-size:1.2rem; }
+  .heatmap-grid { grid-template-columns:repeat(26,1fr); }
+  .cal-grid { gap:2px; }
+  .cal-day-num { font-size:0.75rem; }
+  .header-search { display:none; }
+}
+
+/* ===== UTILITY ===== */
+.flex { display:flex; }
+.flex-center { display:flex; align-items:center; justify-content:center; }
+.items-center { align-items:center; }
+.gap-8 { gap:8px; }
+.gap-12 { gap:12px; }
+.gap-16 { gap:16px; }
+.mt-8 { margin-top:8px; }
+.mt-12 { margin-top:12px; }
+.mt-16 { margin-top:16px; }
+.mt-20 { margin-top:20px; }
+.mb-8 { margin-bottom:8px; }
+.mb-12 { margin-bottom:12px; }
+.mb-16 { margin-bottom:16px; }
+.mb-20 { margin-bottom:20px; }
+.text-primary { color:var(--primary) !important; }
+.text-gold { color:var(--gold) !important; }
+.text-muted { color:var(--text-muted) !important; }
+.text-sm { font-size:0.82rem; }
+.text-xs { font-size:0.72rem; }
+.font-bold { font-weight:700; }
+.w-full { width:100%; }
+.hidden { display:none !important; }
+.rounded { border-radius:var(--radius-md); }
+.divider { height:1px; background:var(--border); margin:16px 0; }
+.tag {
+  display:inline-flex; align-items:center; padding:3px 10px;
+  border-radius:var(--radius-full); font-size:0.72rem; font-weight:600;
+}
+.tag-primary { background:rgba(0,201,184,0.1); color:var(--primary); }
+.tag-gold { background:rgba(212,168,67,0.1); color:var(--gold); }
+.tag-red { background:rgba(239,68,68,0.1); color:#f87171; }
+.tag-green { background:rgba(34,197,94,0.1); color:#4ade80; }
+</style>
 </head>
-<body class="bg-brand-light text-slate-800 font-sans overflow-x-hidden">
+<body>
 
-    <!-- 1. Sticky Header / Mega Menu Placeholder -->
-    <header class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center gap-2">
-                    <div class="w-8 h-8 bg-slate-900 rounded-tr-xl rounded-bl-xl flex items-center justify-center text-white font-bold">V</div>
-                    <span class="font-bold text-xl tracking-tighter">VISION<span class="text-accent-tech">TECH</span></span>
-                </div>
+<!-- Golden Light -->
+<div id="golden-light"></div>
+<div class="gold-shimmer"></div>
 
-                <!-- Desktop Nav -->
-                <nav class="hidden md:flex space-x-8 space-x-reverse">
-                    <a href="#" class="text-slate-900 font-medium hover:text-accent-fashion transition">عینک آفتابی</a>
-                    <a href="#" class="text-slate-900 font-medium hover:text-accent-fashion transition">فریم طبی</a>
-                    <span class="w-px h-6 bg-gray-300 mx-2"></span>
-                    <a href="#" class="text-slate-900 font-medium hover:text-accent-tech transition">هدفون و اسپیکر</a>
-                    <a href="#" class="text-slate-900 font-medium hover:text-accent-tech transition">ساعت هوشمند</a>
-                    <a href="#" class="text-slate-900 font-medium hover:text-accent-tech transition">لوازم جانبی</a>
-                </nav>
+<!-- INTRO ANIMATION -->
+<div id="intro-overlay">
+  <div class="intro-logo-wrap">
+    <div class="intro-logo-icon">
+      <div class="intro-arrow"></div>
+      <div class="intro-bars">
+        <div class="intro-bar"></div>
+        <div class="intro-bar"></div>
+        <div class="intro-bar"></div>
+      </div>
+      <div class="intro-swoosh"></div>
+    </div>
+    <div class="intro-divider"></div>
+    <div class="intro-text">
+      <div class="intro-mazd">MAZD</div>
+      <div class="intro-academy">ACADEMY</div>
+    </div>
+  </div>
+  <p class="intro-tagline">سیستم بهره‌وری شخصی</p>
+  <div class="intro-bar-loader">
+    <div class="intro-bar-fill"></div>
+  </div>
+</div>
 
-                <!-- Icons -->
-                <div class="flex items-center gap-4">
-                    <button class="text-slate-600 hover:text-slate-900"><i class="fas fa-search text-lg"></i></button>
-                    <button class="text-slate-600 hover:text-slate-900 relative">
-                        <i class="fas fa-shopping-bag text-lg"></i>
-                        <span class="absolute -top-1 -right-1 bg-accent-tech text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">2</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
+<!-- AUTH SCREEN -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div style="font-size:2rem; margin-bottom:8px;">📈</div>
+      <div class="auth-title">MAZD Academy</div>
+      <div class="auth-sub">سیستم بهره‌وری شخصی</div>
+    </div>
+    <div class="auth-tabs">
+      <div class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">ورود</div>
+      <div class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">ثبت نام</div>
+    </div>
+    <div id="auth-error" class="auth-error"></div>
 
-    <!-- 2. Hero Section: The Split (Mobile Stacked, Desktop Split) -->
-    <section class="relative pt-20 flex flex-col md:flex-row h-auto md:h-[85vh]">
-        <!-- Left: Tech (Dark Mode Vibe) -->
-        <div class="relative w-full md:w-1/2 h-[50vh] md:h-full bg-slate-900 overflow-hidden group">
-            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop" 
-                 class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700" alt="Tech">
-            <div class="absolute inset-0 flex flex-col justify-center items-start px-8 md:px-16 z-10">
-                <span class="text-accent-tech font-bold tracking-widest text-sm mb-2 uppercase">دنیای دیجیتال</span>
-                <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">صدای شفاف،<br>اتصال بی‌نقص</h2>
-                <a href="#tech-shop" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-sm px-6 py-3 rounded-lg transition-all">
-                    خرید گجت‌ها <i class="fas fa-arrow-left text-xs"></i>
-                </a>
-            </div>
-        </div>
-
-        <!-- Right: Fashion (Warm Vibe) -->
-        <div class="relative w-full md:w-1/2 h-[50vh] md:h-full bg-orange-50 overflow-hidden group">
-            <img src="https://images.unsplash.com/photo-1570222094114-28a9d88a27e6?q=80&w=1000&auto=format&fit=crop" 
-                 class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-700" alt="Fashion">
-            <div class="absolute inset-0 bg-gradient-to-r from-orange-50/80 to-transparent"></div>
-            <div class="absolute inset-0 flex flex-col justify-center items-start px-8 md:px-16 z-10">
-                <span class="text-accent-fashion font-bold tracking-widest text-sm mb-2 uppercase">دنیای استایل</span>
-                <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">دید متفاوت،<br>فریم‌های خاص</h2>
-                <a href="#fashion-shop" class="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-lg hover:bg-slate-800 transition-all shadow-lg shadow-orange-500/20">
-                    خرید عینک‌ها <i class="fas fa-arrow-left text-xs"></i>
-                </a>
-            </div>
-        </div>
-
-        <!-- Central Badge (Absolute) -->
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden md:block">
-            <div class="bg-white rounded-full p-4 shadow-2xl">
-                <div class="w-16 h-16 rounded-full border-2 border-dashed border-slate-300 flex items-center justify-center animate-spin-slow">
-                    <span class="font-bold text-xl text-slate-900">VS</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. Trust Bar (Marquee) -->
-    <div class="bg-slate-900 text-white py-4 overflow-hidden whitespace-nowrap border-y border-slate-800">
-        <div class="marquee-content inline-block">
-            <span class="mx-8 text-sm text-gray-400"><i class="fas fa-check-circle text-accent-tech ml-2"></i> ضمانت اصالت کالا</span>
-            <span class="mx-8 text-sm text-gray-400"><i class="fas fa-truck text-accent-fashion ml-2"></i> ارسال سریع به سراسر ایران</span>
-            <span class="mx-8 text-sm text-gray-400"><i class="fas fa-undo text-green-400 ml-2"></i> ۷ روز ضمانت بازگشت</span>
-            <span class="mx-8 text-sm text-gray-400"><i class="fas fa-shield-alt text-blue-400 ml-2"></i> گارانتی معتبر شرکتی</span>
-            <!-- Repeat for seamless loop -->
-            <span class="mx-8 text-sm text-gray-400"><i class="fas fa-check-circle text-accent-tech ml-2"></i> ضمانت اصالت کالا</span>
-            <span class="mx-8 text-sm text-gray-400"><i class="fas fa-truck text-accent-fashion ml-2"></i> ارسال سریع به سراسر ایران</span>
-        </div>
+    <!-- Login Form -->
+    <div id="login-form">
+      <div class="auth-form-group">
+        <label class="auth-label">نام کاربری</label>
+        <input type="text" class="auth-input" id="login-username" placeholder="نام کاربری خود را وارد کنید" autocomplete="username">
+      </div>
+      <div class="auth-form-group">
+        <label class="auth-label">رمز عبور</label>
+        <input type="password" class="auth-input" id="login-password" placeholder="رمز عبور خود را وارد کنید" autocomplete="current-password">
+      </div>
+      <button class="auth-submit" onclick="handleLogin()">ورود به حساب</button>
+      <p class="auth-switch">حساب ندارید؟ <a onclick="switchAuthTab('register')">ثبت نام کنید</a></p>
     </div>
 
-    <!-- 4. Categories Grid (Visual Navigation) -->
-    <section class="py-16 px-4 max-w-7xl mx-auto">
-        <h3 class="text-center text-2xl font-bold mb-10 text-slate-900">دسته‌بندی‌های محبوب</h3>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <!-- Cat 1 -->
-            <a href="#" class="group relative rounded-2xl overflow-hidden aspect-square">
-                <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition"></div>
-                <span class="absolute bottom-4 right-4 text-white font-bold text-lg">عینک آفتابی</span>
-            </a>
-            <!-- Cat 2 -->
-            <a href="#" class="group relative rounded-2xl overflow-hidden aspect-square">
-                <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition"></div>
-                <span class="absolute bottom-4 right-4 text-white font-bold text-lg">هدفون</span>
-            </a>
-            <!-- Cat 3 -->
-            <a href="#" class="group relative rounded-2xl overflow-hidden aspect-square">
-                <img src="https://images.unsplash.com/photo-1617043786394-f977fa12eddf?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition"></div>
-                <span class="absolute bottom-4 right-4 text-white font-bold text-lg">ساعت هوشمند</span>
-            </a>
-            <!-- Cat 4 -->
-            <a href="#" class="group relative rounded-2xl overflow-hidden aspect-square">
-                <img src="https://images.unsplash.com/photo-1591076482161-42ce6da69f67?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition"></div>
-                <span class="absolute bottom-4 right-4 text-white font-bold text-lg">فریم طبی</span>
-            </a>
+    <!-- Register Form -->
+    <div id="register-form" class="hidden">
+      <div class="auth-form-group">
+        <label class="auth-label">نام کامل</label>
+        <input type="text" class="auth-input" id="reg-name" placeholder="نام و نام خانوادگی">
+      </div>
+      <div class="auth-form-group">
+        <label class="auth-label">نام کاربری</label>
+        <input type="text" class="auth-input" id="reg-username" placeholder="نام کاربری انتخاب کنید" autocomplete="username">
+      </div>
+      <div class="auth-form-group">
+        <label class="auth-label">رمز عبور (حداقل ۶ کاراکتر)</label>
+        <input type="password" class="auth-input" id="reg-password" placeholder="رمز عبور انتخاب کنید" autocomplete="new-password">
+      </div>
+      <button class="auth-submit" onclick="handleRegister()">ایجاد حساب کاربری</button>
+      <p class="auth-switch">حساب دارید؟ <a onclick="switchAuthTab('login')">وارد شوید</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- FOCUS OVERLAY -->
+<div id="focus-overlay">
+  <button class="focus-close" onclick="closeFocus()">✕</button>
+  <p class="focus-label">حالت تمرکز</p>
+  <div class="focus-timer" id="focus-timer-display">25:00</div>
+  <p class="focus-session" id="focus-session-text">جلسه ۱ از ۴</p>
+  <p class="focus-quote" id="focus-quote-text"></p>
+  <div class="focus-btns">
+    <button class="focus-btn btn-primary" id="focus-start-btn" onclick="toggleFocusTimer()">شروع</button>
+    <button class="focus-btn btn-secondary" style="background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-secondary);" onclick="resetFocusTimer()">ریست</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" class="hidden">
+  <!-- Mobile Overlay -->
+  <div id="mobile-overlay" onclick="closeMobileSidebar()"></div>
+
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">
+        <div class="logo-arrow-mini"></div>
+        <div class="logo-bars-mini">
+          <div class="logo-bar-mini"></div>
+          <div class="logo-bar-mini"></div>
+          <div class="logo-bar-mini"></div>
         </div>
-    </section>
+        <div class="logo-swoosh-mini"></div>
+      </div>
+      <div class="sidebar-logo-text">
+        <div class="brand">MAZD</div>
+        <div class="brand-sub">ACADEMY</div>
+      </div>
+    </div>
 
-    <!-- 5. Featured Eyewear (Clean Layout) -->
-    <section id="fashion-shop" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-end mb-8">
-                <div>
-                    <h2 class="text-3xl font-bold text-slate-900">جدیدترین‌های اپتیک</h2>
-                    <p class="text-slate-500 mt-2">طراحی‌هایی که دنیا را با آن‌ها بهتر می‌بینید.</p>
-                </div>
-                <a href="#" class="text-sm font-bold border-b-2 border-slate-900 pb-1 hover:text-accent-fashion hover:border-accent-fashion transition">مشاهده همه</a>
+    <div class="sidebar-user" onclick="navigateTo('profile')">
+      <div class="avatar" id="sidebar-avatar">م</div>
+      <div class="user-info">
+        <div class="user-name" id="sidebar-username">کاربر</div>
+        <div class="user-level" id="sidebar-level">سطح ۱ • تازه‌کار</div>
+      </div>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="nav-section-title">اصلی</div>
+      <div class="nav-item active" data-page="home" onclick="navigateTo('home')">
+        <div class="nav-icon">🏠</div>
+        <div class="nav-label">خانه</div>
+      </div>
+      <div class="nav-item" data-page="calendar" onclick="navigateTo('calendar')">
+        <div class="nav-icon">📅</div>
+        <div class="nav-label">تقویم</div>
+      </div>
+      <div class="nav-item" data-page="goals" onclick="navigateTo('goals')">
+        <div class="nav-icon">🎯</div>
+        <div class="nav-label">اهداف</div>
+      </div>
+
+      <div class="nav-section-title">تحلیل</div>
+      <div class="nav-item" data-page="analytics" onclick="navigateTo('analytics')">
+        <div class="nav-icon">📊</div>
+        <div class="nav-label">آنالیتیکس</div>
+      </div>
+      <div class="nav-item" data-page="achievements" onclick="navigateTo('achievements')">
+        <div class="nav-icon">🏆</div>
+        <div class="nav-label">دستاوردها</div>
+      </div>
+      <div class="nav-item" data-page="weekly" onclick="navigateTo('weekly')">
+        <div class="nav-icon">📋</div>
+        <div class="nav-label">مرور هفتگی</div>
+      </div>
+
+      <div class="nav-section-title">ابزارها</div>
+      <div class="nav-item" data-page="focus" onclick="openFocusMode()">
+        <div class="nav-icon">⏱️</div>
+        <div class="nav-label">حالت تمرکز</div>
+      </div>
+      <div class="nav-item" data-page="support" onclick="navigateTo('support')">
+        <div class="nav-icon">💬</div>
+        <div class="nav-label">پشتیبانی</div>
+        <div class="nav-badge" id="support-badge" style="display:none;">!</div>
+      </div>
+      <div class="nav-item" data-page="settings" onclick="navigateTo('settings')">
+        <div class="nav-icon">⚙️</div>
+        <div class="nav-label">تنظیمات</div>
+      </div>
+
+      <div class="divider" style="margin:8px 16px;"></div>
+      <div class="nav-item" onclick="handleLogout()">
+        <div class="nav-icon">🚪</div>
+        <div class="nav-label">خروج</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div id="main">
+    <!-- HEADER -->
+    <header id="header">
+      <button class="header-toggle" id="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+      <div class="header-date" id="header-date"></div>
+      <div class="header-search">
+        <span>🔍</span>
+        <input type="text" id="global-search" placeholder="جستجو..." oninput="handleSearch(this.value)">
+      </div>
+      <div class="header-score">
+        <span class="score-label">امتیاز امروز</span>
+        <span class="score-value" id="header-score">۰</span>
+      </div>
+      <button class="header-notif" onclick="navigateTo('achievements')">
+        🔔
+        <div class="notif-dot" id="notif-dot" style="display:none;"></div>
+      </button>
+    </header>
+
+    <!-- CONTENT AREA -->
+    <div id="content">
+
+      <!-- ===== HOME PAGE ===== -->
+      <div id="page-home" class="page active">
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+          <div class="welcome-glow"></div>
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+            <div>
+              <div class="welcome-title">سلام، <span id="home-username">کاربر</span> عزیز 👋</div>
+              <div class="welcome-sub" id="home-date-farsi">امروز روز خوبی برای بهره‌وری است</div>
+              <div class="welcome-quote" id="daily-quote">«موفقیت نتیجه تصمیم‌های کوچک هر روز است.»</div>
             </div>
-
-            <!-- Slider Container (Using CSS Grid for demo) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Product Card: Eyewear -->
-                <article class="group cursor-pointer">
-                    <div class="relative bg-gray-50 rounded-xl overflow-hidden aspect-[3/4] mb-4">
-                        <span class="absolute top-3 right-3 bg-white text-xs font-bold px-2 py-1 rounded shadow-sm z-10">NEW</span>
-                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <!-- Action Buttons -->
-                        <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-                            <button class="bg-slate-900 text-white p-3 rounded-full hover:bg-accent-fashion transition shadow-lg" title="افزودن به سبد"><i class="fas fa-shopping-cart"></i></button>
-                            <button class="bg-white text-slate-900 p-3 rounded-full hover:bg-gray-100 transition shadow-lg" title="مشاهده سریع"><i class="fas fa-eye"></i></button>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-lg text-slate-800 group-hover:text-accent-fashion transition">فریم کلاسیک ویفری</h3>
-                        <p class="text-sm text-gray-500 mb-2">برند Ray-Ban</p>
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold text-slate-900">۴,۵۰۰,۰۰۰ تومان</span>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Product Card -->
-                <article class="group cursor-pointer">
-                    <div class="relative bg-gray-50 rounded-xl overflow-hidden aspect-[3/4] mb-4">
-                         <span class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded shadow-sm z-10">%۱۵</span>
-                        <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                         <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-                            <button class="bg-slate-900 text-white p-3 rounded-full hover:bg-accent-fashion transition shadow-lg"><i class="fas fa-shopping-cart"></i></button>
-                            <button class="bg-white text-slate-900 p-3 rounded-full hover:bg-gray-100 transition shadow-lg"><i class="fas fa-eye"></i></button>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-lg text-slate-800 group-hover:text-accent-fashion transition">عینک آفتابی خلبانی</h3>
-                        <p class="text-sm text-gray-500 mb-2">برند Persol</p>
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold text-slate-900">۶,۲۰۰,۰۰۰ تومان</span>
-                            <span class="text-xs text-gray-400 line-through">۷,۱۰۰,۰۰۰</span>
-                        </div>
-                    </div>
-                </article>
-                 <!-- More cards... -->
-                 <article class="group cursor-pointer">
-                    <div class="relative bg-gray-50 rounded-xl overflow-hidden aspect-[3/4] mb-4">
-                        <img src="https://images.unsplash.com/photo-1625591348682-1662c5b36952?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-                            <button class="bg-slate-900 text-white p-3 rounded-full hover:bg-accent-fashion transition shadow-lg"><i class="fas fa-shopping-cart"></i></button>
-                            <button class="bg-white text-slate-900 p-3 rounded-full hover:bg-gray-100 transition shadow-lg"><i class="fas fa-eye"></i></button>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-lg text-slate-800 group-hover:text-accent-fashion transition">فریم طبی گرد هری‌پاتری</h3>
-                        <p class="text-sm text-gray-500 mb-2">برند Tom Ford</p>
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold text-slate-900">۵,۸۰۰,۰۰۰ تومان</span>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="group cursor-pointer">
-                    <div class="relative bg-gray-50 rounded-xl overflow-hidden aspect-[3/4] mb-4">
-                        <img src="https://images.unsplash.com/photo-1591076482161-42ce6da69f67?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-                            <button class="bg-slate-900 text-white p-3 rounded-full hover:bg-accent-fashion transition shadow-lg"><i class="fas fa-shopping-cart"></i></button>
-                            <button class="bg-white text-slate-900 p-3 rounded-full hover:bg-gray-100 transition shadow-lg"><i class="fas fa-eye"></i></button>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-lg text-slate-800 group-hover:text-accent-fashion transition">عینک آفتابی گربه‌ای</h3>
-                        <p class="text-sm text-gray-500 mb-2">برند Vogue</p>
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold text-slate-900">۳,۹۰۰,۰۰۰ تومان</span>
-                        </div>
-                    </div>
-                </article>
+            <div style="text-align:center;">
+              <div class="pomo-ring">
+                <svg width="90" height="90" class="ring-svg">
+                  <circle cx="45" cy="45" r="38" class="ring-bg"/>
+                  <circle cx="45" cy="45" r="38" class="ring-fill"
+                    id="score-ring" stroke="url(#scoreGrad)"
+                    stroke-dasharray="238.76"
+                    stroke-dashoffset="238.76"/>
+                  <defs>
+                    <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#00C9B8"/>
+                      <stop offset="100%" stop-color="#D4A843"/>
+                    </linearGradient>
+                  </defs>
+                  <text x="45" y="45" text-anchor="middle" class="ring-text">
+                    <tspan class="ring-pct" id="score-ring-pct" dy="5px">۰</tspan>
+                    <tspan class="ring-label" x="45" dy="14px">امتیاز</tspan>
+                  </text>
+                </svg>
+              </div>
             </div>
+          </div>
+          <div style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;">
+            <div class="stat-pill">
+              <span>🔥</span>
+              <span class="stat-pill-val text-gold" id="streak-val">۰</span>
+              <span class="stat-pill-lbl">روز متوالی</span>
+            </div>
+            <div class="stat-pill">
+              <span>✅</span>
+              <span class="stat-pill-val text-primary" id="tasks-done-val">۰</span>
+              <span class="stat-pill-lbl">وظیفه تکمیل</span>
+            </div>
+            <div class="stat-pill">
+              <span>💧</span>
+              <span class="stat-pill-val" id="water-val">۰</span>
+              <span class="stat-pill-lbl">لیوان آب</span>
+            </div>
+          </div>
         </div>
-    </section>
 
-    <!-- 6. Tech Showcase (Dark Theme) -->
-    <section id="tech-shop" class="py-20 bg-slate-900 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row gap-12 items-center">
-                <!-- Text Content -->
-                <div class="w-full md:w-1/3">
-                    <span class="text-accent-tech font-bold tracking-wider text-sm uppercase">پیشنهاد ویژه هفته</span>
-                    <h2 class="text-4xl font-bold mt-2 mb-4">Sony WH-1000XM5</h2>
-                    <p class="text-gray-400 mb-8 leading-relaxed">
-                        سکوت مطلق را تجربه کنید. با بهترین تکنولوژی نویز کنسلینگ دنیا و ۳۰ ساعت باتری مداوم. طراحی شده برای حرفه‌ای‌ها.
-                    </p>
-                    
-                    <div class="grid grid-cols-2 gap-4 mb-8">
-                        <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/5">
-                            <i class="fas fa-battery-full text-accent-tech text-2xl mb-2"></i>
-                            <h4 class="font-bold">۳۰ ساعت</h4>
-                            <span class="text-xs text-gray-400">شارژدهی</span>
-                        </div>
-                        <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/5">
-                            <i class="fas fa-weight-hanging text-accent-tech text-2xl mb-2"></i>
-                            <h4 class="font-bold">۲۵۰ گرم</h4>
-                            <span class="text-xs text-gray-400">فوق سبک</span>
-                        </div>
-                    </div>
-
-                    <button class="w-full bg-accent-tech hover:bg-indigo-600 text-white font-bold py-4 rounded-xl transition shadow-lg shadow-indigo-500/30">
-                        خرید با قیمت ۱۳,۵۰۰,۰۰۰ تومان
-                    </button>
-                </div>
-
-                <!-- Product Visual -->
-                <div class="w-full md:w-2/3 relative">
-                    <!-- Decorative Circles -->
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accent-tech/20 rounded-full blur-3xl"></div>
-                    <img src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?q=80&w=1000&auto=format&fit=crop" 
-                         class="relative z-10 w-full h-auto object-contain drop-shadow-2xl hover:rotate-6 transition duration-700" alt="Sony Headphones">
-                </div>
+        <div class="grid-2 mb-20" style="align-items:start;">
+          <!-- Top 3 Goals -->
+          <div class="card">
+            <div class="task-section-header">
+              <span class="task-section-icon">🥇</span>
+              <span class="task-section-title">سه هدف اصلی امروز</span>
+              <span class="tag tag-gold">مهم‌ترین</span>
             </div>
-            
-            <!-- Tech Grid (Smaller Items) -->
-            <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Tech Card 1 -->
-                <div class="bg-slate-800 rounded-xl p-4 flex gap-4 items-center hover:bg-slate-750 transition border border-slate-700 hover:border-accent-tech">
-                    <div class="w-24 h-24 bg-slate-700 rounded-lg flex-shrink-0 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <h4 class="font-bold">اپل واچ اولترا ۲</h4>
-                        <p class="text-xs text-gray-400 mt-1">بدنه تیتانیوم، بند آلپاین</p>
-                        <span class="text-accent-tech font-bold block mt-2">۳۸,۰۰۰,۰۰۰ تومان</span>
-                    </div>
-                </div>
-                <!-- Tech Card 2 -->
-                <div class="bg-slate-800 rounded-xl p-4 flex gap-4 items-center hover:bg-slate-750 transition border border-slate-700 hover:border-accent-tech">
-                    <div class="w-24 h-24 bg-slate-700 rounded-lg flex-shrink-0 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1598331668826-20cecc596b86?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <h4 class="font-bold">پاوربانک انکر</h4>
-                        <p class="text-xs text-gray-400 mt-1">۲۰ هزار میلی‌آمپر، فست شارژ</p>
-                        <span class="text-accent-tech font-bold block mt-2">۲,۱۰۰,۰۰۰ تومان</span>
-                    </div>
-                </div>
-                <!-- Tech Card 3 -->
-                <div class="bg-slate-800 rounded-xl p-4 flex gap-4 items-center hover:bg-slate-750 transition border border-slate-700 hover:border-accent-tech">
-                    <div class="w-24 h-24 bg-slate-700 rounded-lg flex-shrink-0 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1574315042633-548238e9a4f4?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <h4 class="font-bold">ایرفون JBL</h4>
-                        <p class="text-xs text-gray-400 mt-1">ضد آب، بیس قدرتمند</p>
-                        <span class="text-accent-tech font-bold block mt-2">۳,۴۰۰,۰۰۰ تومان</span>
-                    </div>
-                </div>
+            <div id="top3-list">
+              <!-- Rendered by JS -->
             </div>
+          </div>
+
+          <!-- Pomodoro -->
+          <div class="card">
+            <div class="task-section-header">
+              <span class="task-section-icon">⏱️</span>
+              <span class="task-section-title">تایمر پومودورو</span>
+            </div>
+            <div style="text-align:center; padding:10px 0;">
+              <div class="pomo-ring" style="display:inline-block; position:relative;">
+                <svg width="120" height="120" class="ring-svg">
+                  <circle cx="60" cy="60" r="52" class="ring-bg"/>
+                  <circle cx="60" cy="60" r="52" class="ring-fill"
+                    id="pomo-ring" stroke="#00C9B8"
+                    stroke-dasharray="326.73"
+                    stroke-dashoffset="0"/>
+                  <text x="60" y="60" text-anchor="middle" class="ring-text">
+                    <tspan class="ring-pct" id="pomo-display" dy="8px" style="font-size:1.3rem;">۲۵:۰۰</tspan>
+                    <tspan class="ring-label" x="60" dy="16px" style="font-size:0.55rem;" id="pomo-mode-lbl">کار</tspan>
+                  </text>
+                </svg>
+              </div>
+              <div style="font-size:0.78rem; color:var(--text-muted); margin-top:4px;" id="pomo-sessions">جلسه ۱ از ۴</div>
+              <div class="pomo-btns">
+                <button class="pomo-btn start" id="pomo-start-btn" onclick="togglePomodoro()">شروع</button>
+                <button class="pomo-btn reset" onclick="resetPomodoro()">ریست</button>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
 
-    <!-- 7. The Bridge: Lifestyle Combination (Banner) -->
-    <section class="py-16 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="relative rounded-3xl overflow-hidden h-[400px] shadow-xl">
-                <img src="https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?q=80&w=1200&auto=format&fit=crop" 
-                     class="absolute inset-0 w-full h-full object-cover" alt="Lifestyle">
-                <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent"></div>
-                
-                <div class="absolute inset-0 flex flex-col justify-center px-8 md:px-16 max-w-2xl">
-                    <h3 class="text-white text-3xl md:text-4xl font-bold mb-4">ست‌های هوشمند برای زندگی مدرن</h3>
-                    <p class="text-gray-200 mb-8 text-lg">
-                        وقتی استایل شما با نیازهای روزمره‌تان هماهنگ می‌شود. ست‌های پیشنهادی ما شامل عینک آفتابی و هندزفری‌های هم‌رنگ برای ساختن یک تجربه کامل است.
-                    </p>
-                    <button class="bg-white text-slate-900 w-fit px-8 py-3 rounded-full font-bold hover:bg-gray-200 transition">
-                        مشاهده کالکشن "لایف‌استایل"
-                    </button>
-                </div>
+        <!-- Must Tasks -->
+        <div class="card mb-16">
+          <div class="task-section">
+            <div class="task-section-header">
+              <span class="task-section-icon">🔴</span>
+              <span class="task-section-title">کارهای ضروری</span>
+              <span class="task-section-count" id="must-count">۰</span>
             </div>
+            <div id="must-tasks-list"></div>
+            <button class="add-task-btn" onclick="addTask('must')">+ افزودن وظیفه ضروری</button>
+          </div>
         </div>
-    </section>
 
-    <!-- 8. SEO Content & Blog (Accordion Style) -->
-    <section class="py-16 bg-white border-t border-gray-100">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="text-center mb-10">
-                <h2 class="text-2xl font-bold text-slate-900">راهنمای خرید و سوالات متداول</h2>
-                <p class="text-gray-500 mt-2">پاسخ به سوالات شما برای خریدی مطمئن‌تر</p>
+        <!-- Should Tasks -->
+        <div class="card mb-16">
+          <div class="task-section">
+            <div class="task-section-header">
+              <span class="task-section-icon">🟡</span>
+              <span class="task-section-title">کارهای مهم</span>
+              <span class="task-section-count" id="should-count">۰</span>
             </div>
-
-            <div class="space-y-4">
-                <!-- SEO Item 1 -->
-                <details class="group bg-gray-50 rounded-lg p-4 cursor-pointer [&_summary::-webkit-details-marker]:hidden">
-                    <summary class="flex justify-between items-center font-medium text-slate-900">
-                        چطور عینک مناسب فرم صورت خود را پیدا کنم؟
-                        <span class="transition group-open:rotate-180">
-                            <i class="fas fa-chevron-down"></i>
-                        </span>
-                    </summary>
-                    <p class="text-gray-600 mt-4 leading-relaxed text-sm">
-                        انتخاب فریم مناسب به فرم صورت شما بستگی دارد. برای صورت‌های گرد، فریم‌های زاویه‌دار و مربعی پیشنهاد می‌شود. برای صورت‌های مربعی، فریم‌های گرد و بیضی تعادل ایجاد می‌کنند. ما در صفحه هر محصول ابعاد دقیق را درج کرده‌ایم.
-                    </p>
-                </details>
-
-                <!-- SEO Item 2 -->
-                <details class="group bg-gray-50 rounded-lg p-4 cursor-pointer [&_summary::-webkit-details-marker]:hidden">
-                    <summary class="flex justify-between items-center font-medium text-slate-900">
-                        آیا گجت‌های الکترونیکی دارای گارانتی هستند؟
-                        <span class="transition group-open:rotate-180">
-                            <i class="fas fa-chevron-down"></i>
-                        </span>
-                    </summary>
-                    <p class="text-gray-600 mt-4 leading-relaxed text-sm">
-                        بله، تمامی محصولات دیجیتال شامل هدفون، اسپیکر و ساعت‌های هوشمند با گارانتی معتبر ۱۲ تا ۱۸ ماهه شرکتی عرضه می‌شوند. کارت گارانتی همراه محصول ارسال می‌شود.
-                    </p>
-                </details>
-
-                <!-- SEO Item 3 -->
-                <details class="group bg-gray-50 rounded-lg p-4 cursor-pointer [&_summary::-webkit-details-marker]:hidden">
-                    <summary class="flex justify-between items-center font-medium text-slate-900">
-                        تفاوت لنز پلاریزه و UV400 چیست؟
-                        <span class="transition group-open:rotate-180">
-                            <i class="fas fa-chevron-down"></i>
-                        </span>
-                    </summary>
-                    <p class="text-gray-600 mt-4 leading-relaxed text-sm">
-                        لنز UV400 چشمان شما را در برابر اشعه‌های مضر فرابنفش خورشید محافظت می‌کند که برای هر عینکی ضروری است. لنز پلاریزه علاوه بر UV400، بازتاب نور از سطوح صاف (مثل آسفالت خیابان یا سطح آب) را حذف می‌کند و دید شفاف‌تری ارائه می‌دهد که برای رانندگی عالی است.
-                    </p>
-                </details>
-            </div>
+            <div id="should-tasks-list"></div>
+            <button class="add-task-btn" onclick="addTask('should')">+ افزودن وظیفه مهم</button>
+          </div>
         </div>
-    </section>
 
-    <!-- 9. Footer (Departmental Structure) -->
-    <footer class="bg-slate-900 text-gray-300 pt-16 pb-8 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-                <!-- Brand Info -->
-                <div class="col-span-1 md:col-span-1">
-                    <span class="font-bold text-2xl text-white tracking-tight block mb-6">VISION<span class="text-accent-tech">TECH</span></span>
-                    <p class="text-sm leading-relaxed mb-6 text-gray-400">
-                        تخصصی‌ترین مرجع خرید ترکیبی عینک و گجت‌های پوشیدنی. ما معتقدیم تکنولوژی باید زیبا باشد و زیبایی باید کارآمد.
-                    </p>
-                    <div class="flex gap-4">
-                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-accent-tech transition"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-accent-tech transition"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-accent-tech transition"><i class="fab fa-telegram"></i></a>
-                    </div>
-                </div>
-
-                <!-- Links: Tech -->
-                <div>
-                    <h4 class="text-white font-bold mb-6 border-b border-slate-700 pb-2 inline-block">کالای دیجیتال</h4>
-                    <ul class="space-y-3 text-sm">
-                        <li><a href="#" class="hover:text-accent-tech transition">هدفون و هندزفری</a></li>
-                        <li><a href="#" class="hover:text-accent-tech transition">ساعت‌های هوشمند</a></li>
-                        <li><a href="#" class="hover:text-accent-tech transition">اسپیکر پرتابل</a></li>
-                        <li><a href="#" class="hover:text-accent-tech transition">پاوربانک و شارژر</a></li>
-                    </ul>
-                </div>
-
-                <!-- Links: Fashion -->
-                <div>
-                    <h4 class="text-white font-bold mb-6 border-b border-slate-700 pb-2 inline-block">مد و استایل</h4>
-                    <ul class="space-y-3 text-sm">
-                        <li><a href="#" class="hover:text-accent-fashion transition">عینک آفتابی مردانه</a></li>
-                        <li><a href="#" class="hover:text-accent-fashion transition">عینک آفتابی زنانه</a></li>
-                        <li><a href="#" class="hover:text-accent-fashion transition">فریم‌های طبی</a></li>
-                        <li><a href="#" class="hover:text-accent-fashion transition">اکسسوری عینک</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact & Trust -->
-                <div>
-                    <h4 class="text-white font-bold mb-6 border-b border-slate-700 pb-2 inline-block">تماس و پشتیبانی</h4>
-                    <ul class="space-y-3 text-sm">
-                        <li class="flex items-center gap-2"><i class="fas fa-phone text-gray-500"></i> ۰۲۱-۸۸۸۸۱۲۳۴</li>
-                        <li class="flex items-center gap-2"><i class="fas fa-envelope text-gray-500"></i> info@visiontech.ir</li>
-                        <li class="mt-4 flex gap-2">
-                             <div class="w-16 h-16 bg-white rounded-lg opacity-80"></div> <!-- Enamad Placeholder -->
-                             <div class="w-16 h-16 bg-white rounded-lg opacity-80"></div> <!-- Samandehi Placeholder -->
-                        </li>
-                    </ul>
-                </div>
+        <!-- Could Tasks -->
+        <div class="card mb-16">
+          <div class="task-section">
+            <div class="task-section-header">
+              <span class="task-section-icon">🟢</span>
+              <span class="task-section-title">کارهای اختیاری</span>
+              <span class="task-section-count" id="could-count">۰</span>
             </div>
-
-            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-xs text-gray-500">© ۱۴۰۳ تمامی حقوق برای ویژن‌تک محفوظ است. | طراحی و توسعه</p>
-                <div class="flex gap-2 text-2xl text-gray-600">
-                    <i class="fab fa-cc-visa"></i>
-                    <i class="fab fa-cc-mastercard"></i>
-                </div>
-            </div>
+            <div id="could-tasks-list"></div>
+            <button class="add-task-btn" onclick="addTask('could')">+ افزودن وظیفه اختیاری</button>
+          </div>
         </div>
-    </footer>
 
+        <div class="grid-2 mb-16">
+          <!-- Habit Tracker -->
+          <div class="card">
+            <div class="task-section-header">
+              <span class="task-section-icon">🔄</span>
+              <span class="task-section-title">عادت‌های روزانه</span>
+            </div>
+            <div id="habits-list"></div>
+            <button class="add-task-btn" onclick="openAddHabitModal()">+ افزودن عادت</button>
+          </div>
+
+          <!-- Mood + Water -->
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="card">
+              <div class="task-section-header">
+                <span class="task-section-icon">😊</span>
+                <span class="task-section-title">خلق‌وخوی امروز</span>
+              </div>
+              <div class="mood-grid">
+                <div class="mood-btn" data-mood="5" onclick="setMood(5)">😄<span>عالی</span></div>
+                <div class="mood-btn" data-mood="4" onclick="setMood(4)">😊<span>خوب</span></div>
+                <div class="mood-btn" data-mood="3" onclick="setMood(3)">😐<span>معمولی</span></div>
+                <div class="mood-btn" data-mood="2" onclick="setMood(2)">😔<span>بد</span></div>
+                <div class="mood-btn" data-mood="1" onclick="setMood(1)">😞<span>خیلی بد</span></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="task-section-header">
+                <span class="task-section-icon">💧</span>
+                <span class="task-section-title">پیگیری آب</span>
+                <span style="margin-right:auto; font-size:0.78rem; color:var(--text-muted);" id="water-count-text">۰ از ۸</span>
+              </div>
+              <div class="water-track" id="water-track">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Not-Todo List -->
+        <div class="card mb-16">
+          <div class="task-section-header">
+            <span class="task-section-icon">🚫</span>
+            <span class="task-section-title">لیست انجام ندادنی‌ها</span>
+          </div>
+          <div id="nottodo-list"></div>
+          <button class="add-task-btn" onclick="addNotTodo()" style="border-color:rgba(239,68,68,0.2); color:rgba(248,113,113,0.7);">+ افزودن مورد</button>
+        </div>
+
+        <div class="grid-2 mb-16">
+          <!-- Morning Routine -->
+          <div class="card">
+            <div class="task-section-header">
+              <span class="task-section-icon">🌅</span>
+              <span class="task-section-title">روتین صبح</span>
+            </div>
+            <div id="morning-routine-list"></div>
+          </div>
+
+          <!-- Evening Reflection -->
+          <div class="card">
+            <div class="task-section-header">
+              <span class="task-section-icon">🌙</span>
+              <span class="task-section-title">بازتاب شبانه</span>
+            </div>
+            <textarea class="reflection-area" id="reflection-text" placeholder="امروز چه یاد گرفتید؟ چه چیزی خوب بود؟ چه چیزی باید بهتر می‌شد؟" oninput="saveReflection()"></textarea>
+            <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+              <button class="btn btn-primary btn-sm" onclick="saveReflection()">ذخیره</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="card mb-20">
+          <div class="task-section-header">
+            <span class="task-section-icon">📝</span>
+            <span class="task-section-title">یادداشت‌های روز</span>
+          </div>
+          <textarea class="reflection-area" id="daily-notes" placeholder="یادداشت‌های خود را اینجا بنویسید..." oninput="saveNotes()" style="min-height:80px;"></textarea>
+        </div>
+      </div>
+
+      <!-- ===== CALENDAR PAGE ===== -->
+      <div id="page-calendar" class="page">
+        <div class="section-header">
+          <div class="section-title">📅 تقویم</div>
+          <div class="section-sub">مرور و برنامه‌ریزی روزانه</div>
+        </div>
+        <div class="card mb-20">
+          <div class="cal-nav">
+            <button class="cal-nav-btn" onclick="calPrev()">▶</button>
+            <div class="cal-month-title" id="cal-title"></div>
+            <button class="cal-nav-btn" onclick="calNext()">◀</button>
+          </div>
+          <div class="cal-grid" id="cal-grid">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+        <div class="card" id="cal-day-detail" style="display:none;">
+          <div class="task-section-header">
+            <span class="task-section-icon">📌</span>
+            <span class="task-section-title" id="cal-detail-title">جزئیات روز</span>
+          </div>
+          <div id="cal-day-info"></div>
+        </div>
+      </div>
+
+      <!-- ===== ANALYTICS PAGE ===== -->
+      <div id="page-analytics" class="page">
+        <div class="section-header">
+          <div class="section-title">📊 آنالیتیکس</div>
+          <div class="section-sub">تحلیل عملکرد و پیشرفت شما</div>
+        </div>
+
+        <div class="grid-4 mb-20">
+          <div class="card review-stat-card">
+            <div class="review-stat-val text-primary" id="an-total-tasks">۰</div>
+            <div class="review-stat-lbl">کل وظایف این هفته</div>
+          </div>
+          <div class="card review-stat-card">
+            <div class="review-stat-val text-gold" id="an-done-tasks">۰</div>
+            <div class="review-stat-lbl">وظایف تکمیل شده</div>
+          </div>
+          <div class="card review-stat-card">
+            <div class="review-stat-val" id="an-habits">۰%</div>
+            <div class="review-stat-lbl">درصد عادت‌ها</div>
+          </div>
+          <div class="card review-stat-card">
+            <div class="review-stat-val" id="an-avg-score">۰</div>
+            <div class="review-stat-lbl">میانگین امتیاز</div>
+          </div>
+        </div>
+
+        <div class="grid-2 mb-20">
+          <div class="card chart-card">
+            <div class="chart-title">روند امتیاز ۷ روز گذشته</div>
+            <canvas id="weekly-score-chart" height="160"></canvas>
+          </div>
+          <div class="card chart-card">
+            <div class="chart-title">توزیع وظایف</div>
+            <canvas id="task-pie-chart" height="160"></canvas>
+          </div>
+        </div>
+
+        <div class="card mb-20 chart-card">
+          <div class="chart-title">نمودار میله‌ای عملکرد ماهانه</div>
+          <canvas id="monthly-bar-chart" height="120"></canvas>
+        </div>
+
+        <div class="card mb-20">
+          <div class="chart-title" style="margin-bottom:16px;">نقشه حرارتی سالانه</div>
+          <div class="heatmap-grid" id="heatmap-grid"></div>
+          <div style="display:flex; gap:8px; align-items:center; margin-top:12px; font-size:0.75rem; color:var(--text-muted);">
+            <span>کمتر</span>
+            <div style="width:12px;height:12px;background:var(--bg-elevated);border-radius:2px;"></div>
+            <div class="heatmap-cell l1" style="width:12px;height:12px;"></div>
+            <div class="heatmap-cell l2" style="width:12px;height:12px;"></div>
+            <div class="heatmap-cell l3" style="width:12px;height:12px;"></div>
+            <div class="heatmap-cell l4" style="width:12px;height:12px;"></div>
+            <span>بیشتر</span>
+          </div>
+        </div>
+
+        <div class="grid-2 mb-20">
+          <div class="card chart-card">
+            <div class="chart-title">تحلیل خلق‌وخو</div>
+            <canvas id="mood-chart" height="160"></canvas>
+          </div>
+          <div class="card chart-card">
+            <div class="chart-title">عملکرد عادت‌ها</div>
+            <canvas id="habit-chart" height="160"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== GOALS PAGE ===== -->
+      <div id="page-goals" class="page">
+        <div class="section-header" style="display:flex; align-items:center; justify-content:space-between;">
+          <div>
+            <div class="section-title">🎯 اهداف بلندمدت</div>
+            <div class="section-sub">مسیر خود را تعریف کنید</div>
+          </div>
+          <button class="btn btn-primary" onclick="openGoalModal()">+ هدف جدید</button>
+        </div>
+        <div id="goals-list"></div>
+      </div>
+
+      <!-- ===== ACHIEVEMENTS PAGE ===== -->
+      <div id="page-achievements" class="page">
+        <div class="section-header">
+          <div class="section-title">🏆 دستاوردها</div>
+          <div class="section-sub">پیشرفت و جوایز شما</div>
+        </div>
+
+        <div class="card mb-20">
+          <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
+            <div class="profile-avatar-lg" id="ach-avatar" style="width:60px;height:60px;font-size:1.5rem;margin:0;">م</div>
+            <div style="flex:1;">
+              <div style="font-size:1.1rem; font-weight:700;" id="ach-username">کاربر</div>
+              <div style="font-size:0.82rem; color:var(--text-muted);" id="ach-level-text">سطح ۱ • تازه‌کار</div>
+              <div class="xp-bar-outer">
+                <div class="xp-bar-inner" id="xp-bar" style="width:0%;"></div>
+              </div>
+              <div style="font-size:0.78rem; color:var(--text-muted);">
+                <span id="xp-current">۰</span> / <span id="xp-next">۱۰۰</span> XP
+              </div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:2rem; font-weight:700; color:var(--gold);" id="ach-streak">۰</div>
+              <div style="font-size:0.75rem; color:var(--text-muted);">روز متوالی 🔥</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size:0.9rem; font-weight:600; margin-bottom:16px;">نشان‌ها</div>
+        <div class="badge-grid" id="badges-grid"></div>
+      </div>
+
+      <!-- ===== WEEKLY REVIEW ===== -->
+      <div id="page-weekly" class="page">
+        <div class="section-header">
+          <div class="section-title">📋 مرور هفتگی</div>
+          <div class="section-sub">آمار و تحلیل عملکرد هفته</div>
+        </div>
+        <div class="grid-4 mb-20">
+          <div class="card review-stat-card">
+            <div class="review-stat-val text-primary" id="wk-done">۰</div>
+            <div class="review-stat-lbl">وظایف انجام شده</div>
+          </div>
+          <div class="card review-stat-card">
+            <div class="review-stat-val text-gold" id="wk-habits">۰%</div>
+            <div class="review-stat-lbl">درصد عادت‌ها</div>
+          </div>
+          <div class="card review-stat-card">
+            <div class="review-stat-val" id="wk-avg">۰</div>
+            <div class="review-stat-lbl">میانگین امتیاز</div>
+          </div>
+          <div class="card review-stat-card">
+            <div class="review-stat-val" id="wk-streak">۰</div>
+            <div class="review-stat-lbl">روز فعال</div>
+          </div>
+        </div>
+
+        <div class="card mb-20">
+          <div class="chart-title" style="margin-bottom:16px;">عملکرد ۷ روز گذشته</div>
+          <canvas id="weekly-review-chart" height="140"></canvas>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="task-section-header">
+              <span>✨</span>
+              <span class="task-section-title">نقاط قوت هفته</span>
+            </div>
+            <div id="weekly-strengths" style="font-size:0.85rem; color:var(--text-secondary); line-height:1.8;"></div>
+          </div>
+          <div class="card">
+            <div class="task-section-header">
+              <span>🎯</span>
+              <span class="task-section-title">پیشنهادات بهبود</span>
+            </div>
+            <div id="weekly-suggestions" style="font-size:0.85rem; color:var(--text-secondary); line-height:1.8;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PROFILE PAGE ===== -->
+      <div id="page-profile" class="page">
+        <div class="section-header">
+          <div class="section-title">👤 پروفایل</div>
+          <div class="section-sub">اطلاعات و تنظیمات حساب</div>
+        </div>
+        <div class="card mb-20">
+          <div style="text-align:center; padding:20px 0;">
+            <div class="profile-avatar-lg" id="profile-avatar">م</div>
+            <div style="font-size:1.3rem; font-weight:700;" id="profile-name">کاربر</div>
+            <div style="font-size:0.85rem; color:var(--text-muted);" id="profile-username-display">@username</div>
+          </div>
+          <div class="divider"></div>
+          <div class="auth-form-group">
+            <label class="auth-label">نام کامل</label>
+            <input type="text" class="auth-input" id="profile-name-input">
+          </div>
+          <div style="display:flex; gap:8px; justify-content:flex-end;">
+            <button class="btn btn-primary" onclick="saveProfile()">ذخیره تغییرات</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SETTINGS PAGE ===== -->
+      <div id="page-settings" class="page">
+        <div class="section-header">
+          <div class="section-title">⚙️ تنظیمات</div>
+          <div class="section-sub">شخصی‌سازی برنامه</div>
+        </div>
+
+        <div class="card mb-16">
+          <div style="font-size:0.9rem; font-weight:600; margin-bottom:12px; color:var(--text-secondary);">📤 داده‌ها</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-title">خروجی JSON</div>
+              <div class="setting-desc">دانلود تمام داده‌های شما در قالب JSON</div>
+            </div>
+            <button class="setting-btn" onclick="exportData()">دانلود</button>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-title">ورودی JSON</div>
+              <div class="setting-desc">بازیابی داده‌ها از فایل JSON</div>
+            </div>
+            <label class="setting-btn" style="cursor:pointer;">
+              انتخاب فایل
+              <input type="file" accept=".json" style="display:none;" onchange="importData(event)">
+            </label>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-title">پشتیبان‌گیری خودکار</div>
+              <div class="setting-desc">ذخیره خودکار داده‌ها در مرورگر</div>
+            </div>
+            <div class="toggle on" onclick="this.classList.toggle('on')">
+              <div class="toggle-knob"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-16">
+          <div style="font-size:0.9rem; font-weight:600; margin-bottom:12px; color:var(--text-secondary);">🎨 ظاهر</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-title">رنگ اصلی</div>
+              <div class="setting-desc">انتخاب رنگ تم برنامه</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <div style="width:24px;height:24px;border-radius:50%;background:#00C9B8;cursor:pointer;border:2px solid white;" onclick="setAccentColor('#00C9B8')"></div>
+              <div style="width:24px;height:24px;border-radius:50%;background:#6C63FF;cursor:pointer;border:2px solid transparent;" onclick="setAccentColor('#6C63FF')"></div>
+              <div style="width:24px;height:24px;border-radius:50%;background:#D4A843;cursor:pointer;border:2px solid transparent;" onclick="setAccentColor('#D4A843')"></div>
+              <div style="width:24px;height:24px;border-radius:50%;background:#f43f5e;cursor:pointer;border:2px solid transparent;" onclick="setAccentColor('#f43f5e')"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="font-size:0.9rem; font-weight:600; margin-bottom:12px; color:var(--text-secondary);">⚠️ خطرناک</div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <div class="setting-title">حذف تمام داده‌ها</div>
+              <div class="setting-desc">تمام اطلاعات این حساب حذف می‌شود</div>
+            </div>
+            <button class="setting-btn danger" onclick="confirmReset()">پاک‌سازی</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SUPPORT PAGE ===== -->
+      <div id="page-support" class="page">
+        <div class="section-header">
+          <div class="section-title">💬 پشتیبانی</div>
+          <div class="section-sub">با ما در ارتباط باشید</div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div style="font-size:0.95rem; font-weight:600; margin-bottom:16px;">ارسال پیام جدید</div>
+            <div class="support-form-group">
+              <label class="support-label">موضوع</label>
+              <input type="text" class="support-input" id="support-subject" placeholder="موضوع پیام خود را وارد کنید">
+            </div>
+            <div class="support-form-group">
+              <label class="support-label">نوع درخواست</label>
+              <select class="support-select" id="support-type">
+                <option value="bug">گزارش باگ</option>
+                <option value="feature">درخواست ویژگی</option>
+                <option value="account">مشکل حساب</option>
+                <option value="other">سایر</option>
+              </select>
+            </div>
+            <div class="support-form-group">
+              <label class="support-label">پیام</label>
+              <textarea class="support-textarea" id="support-message" placeholder="پیام خود را بنویسید..."></textarea>
+            </div>
+            <button class="btn btn-primary w-full" onclick="submitSupport()">ارسال پیام</button>
+          </div>
+
+          <div>
+            <div style="font-size:0.95rem; font-weight:600; margin-bottom:16px;">تاریخچه پیام‌ها</div>
+            <div id="support-history">
+              <div class="empty-state">
+                <div class="empty-icon">💬</div>
+                <div class="empty-title">پیامی وجود ندارد</div>
+                <div class="empty-desc">اولین پیام خود را ارسال کنید</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end #content -->
+  </div><!-- end #main -->
+</div><!-- end #app -->
+
+<!-- MODALS -->
+<!-- Add Habit Modal -->
+<div id="habit-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">افزودن عادت جدید</div>
+      <button class="modal-close" onclick="closeModal('habit-modal')">✕</button>
+    </div>
+    <div class="auth-form-group">
+      <label class="auth-label">نام عادت</label>
+      <input type="text" class="auth-input" id="habit-name-input" placeholder="مثال: ورزش صبح">
+    </div>
+    <div class="auth-form-group">
+      <label class="auth-label">آیکون</label>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;" id="habit-icon-picker">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('habit-modal')">انصراف</button>
+      <button class="btn btn-primary" onclick="confirmAddHabit()">افزودن</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Goal Modal -->
+<div id="goal-modal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">افزودن هدف جدید</div>
+      <button class="modal-close" onclick="closeModal('goal-modal')">✕</button>
+    </div>
+    <div class="auth-form-group">
+      <label class="auth-label">عنوان هدف</label>
+      <input type="text" class="auth-input" id="goal-title-input" placeholder="هدف خود را بنویسید">
+    </div>
+    <div class="auth-form-group">
+      <label class="auth-label">آیکون</label>
+      <input type="text" class="auth-input" id="goal-icon-input" placeholder="🎯" maxlength="2">
+    </div>
+    <div class="auth-form-group">
+      <label class="auth-label">توضیحات</label>
+      <textarea class="support-textarea" id="goal-desc-input" placeholder="توضیح مختصر هدف" style="min-height:80px;"></textarea>
+    </div>
+    <div class="auth-form-group">
+      <label class="auth-label">مهلت</label>
+      <input type="date" class="auth-input" id="goal-deadline-input">
+    </div>
+    <div style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px;">مایلستون‌ها</div>
+    <div id="goal-milestones-wrap">
+      <input type="text" class="auth-input mb-8" id="goal-m1" placeholder="مایلستون ۱">
+      <input type="text" class="auth-input mb-8" id="goal-m2" placeholder="مایلستون ۲">
+      <input type="text" class="auth-input" id="goal-m3" placeholder="مایلستون ۳">
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('goal-modal')">انصراف</button>
+      <button class="btn btn-primary" onclick="confirmAddGoal()">افزودن هدف</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ===== UTILS =====
+const Utils = {
+  escapeHtml(str) {
+    if (typeof str !== 'string') return '';
+    const map = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'};
+    return str.replace(/[&<>"']/g, m => map[m]);
+  },
+  toFarsiNum(n) {
+    const farsi = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    return String(n).replace(/\d/g, d => farsi[d]);
+  },
+  generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2);
+  },
+  getTodayKey() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  },
+  getDateKey(date) {
+    return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+  },
+  debounce(fn, delay) {
+    let t;
+    return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), delay); };
+  },
+  getPersianDate(date) {
+    const d = date || new Date();
+    const weekdays = ['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه'];
+    const months = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+    // Simple Gregorian to Jalali approximation
+    const jd = this.toJalali(d.getFullYear(), d.getMonth()+1, d.getDate());
+    return `${weekdays[d.getDay()]}، ${this.toFarsiNum(jd[2])} ${months[jd[1]-1]} ${this.toFarsiNum(jd[0])}`;
+  },
+  toJalali(gy, gm, gd) {
+    gy -= 1600; gm -= 1; gd -= 1;
+    let g_day_no = 365*gy + Math.floor((gy+3)/4) - Math.floor((gy+99)/100) + Math.floor((gy+399)/400);
+    const gMonthDays=[31,28,31,30,31,30,31,31,30,31,30,31];
+    for(let i=0;i<gm;i++) g_day_no+=gMonthDays[i];
+    if(gm>1&&((gy+1600)%4===0&&((gy+1600)%100!==0||(gy+1600)%400===0))) g_day_no++;
+    g_day_no+=gd;
+    let j_day_no=g_day_no-79;
+    let j_np=Math.floor(j_day_no/12053); j_day_no%=12053;
+    let jy=979+33*j_np+4*Math.floor(j_day_no/1461);
+    j_day_no%=1461;
+    if(j_day_no>=366){jy+=Math.floor((j_day_no-1)/365);j_day_no=(j_day_no-1)%365;}
+    const jMonthDays=[31,31,31,31,31,31,30,30,30,30,30,29];
+    let jm=0;
+    for(let i=0;i<11&&j_day_no>=jMonthDays[i];i++){j_day_no-=jMonthDays[i];jm++;}
+    return[jy,jm+1,j_day_no+1];
+  },
+  jalaliToGregorian(jy, jm, jd) {
+    jy -= 979; jm -= 1; jd -= 1;
+    let j_day_no = 365*jy + Math.floor(jy/33)*8 + Math.floor((jy%33+3)/4);
+    const jMonthDays=[31,31,31,31,31,31,30,30,30,30,30,29];
+    for(let i=0;i<jm;++i) j_day_no+=jMonthDays[i];
+    j_day_no+=jd;
+    let g_day_no=j_day_no+79;
+    let gy=1600+400*Math.floor(g_day_no/146097); g_day_no%=146097;
+    let leap=true;
+    if(g_day_no>=36525){g_day_no++;gy+=100*Math.floor(g_day_no/36524);g_day_no%=36524;if(g_day_no>=365)g_day_no++;else leap=false;}
+    gy+=4*Math.floor(g_day_no/1461);g_day_no%=1461;
+    if(g_day_no>=366){leap=false;g_day_no++;gy+=Math.floor(g_day_no/365);g_day_no%=365;}
+    const gMonths=[31,leap?29:28,31,30,31,30,31,31,30,31,30,31];
+    let gm=0;
+    for(;g_day_no>=gMonths[gm];gm++)g_day_no-=gMonths[gm];
+    return[gy,gm+1,g_day_no+1];
+  },
+  formatDate(key) {
+    const [y,m,d] = key.split('-').map(Number);
+    const months = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+    const jd = this.toJalali(y, m, d);
+    return `${this.toFarsiNum(jd[2])} ${months[jd[1]-1]}`;
+  }
+};
+
+// ===== STORAGE MANAGER =====
+const StorageManager = {
+  prefix: 'mazd_',
+  save(key, value) {
+    try {
+      localStorage.setItem(this.prefix + key, JSON.stringify(value));
+      return true;
+    } catch(e) { console.warn('Storage error', e); return false; }
+  },
+  load(key, fallback = null) {
+    try {
+      const v = localStorage.getItem(this.prefix + key);
+      return v !== null ? JSON.parse(v) : fallback;
+    } catch(e) { return fallback; }
+  },
+  remove(key) {
+    try { localStorage.removeItem(this.prefix + key); } catch(e) {}
+  },
+  exportAll(userId) {
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith(this.prefix + 'user_' + userId)) keys.push(k);
+    }
+    const data = { exportDate: new Date().toISOString(), userId };
+    keys.forEach(k => {
+      try { data[k.replace(this.prefix, '')] = JSON.parse(localStorage.getItem(k)); } catch(e) {}
+    });
+    return data;
+  },
+  importAll(data) {
+    if (!data || typeof data !== 'object') return false;
+    Object.entries(data).forEach(([k, v]) => {
+      if (k === 'exportDate' || k === 'userId') return;
+      try { localStorage.setItem(this.prefix + k, JSON.stringify(v)); } catch(e) {}
+    });
+    return true;
+  }
+};
+
+// ===== USER MANAGER =====
+const UserManager = {
+  current: null,
+  getUsers() { return StorageManager.load('users', {}); },
+  saveUsers(users) { StorageManager.save('users', users); },
+  getUserKey(userId) { return `user_${userId}`; },
+  register(name, username, password) {
+    if (!name.trim() || !username.trim() || !password) return { ok:false, msg:'همه فیلدها الزامی هستند.' };
+    if (password.length < 6) return { ok:false, msg:'رمز عبور باید حداقل ۶ کاراکتر باشد.' };
+    const users = this.getUsers();
+    const uname = username.trim().toLowerCase();
+    if (Object.values(users).find(u => u.username === uname)) return { ok:false, msg:'این نام کاربری قبلاً ثبت شده است.' };
+    const userId = Utils.generateId();
+    users[userId] = { id:userId, name:name.trim(), username:uname, password:this.hashPwd(password), createdAt:Date.now() };
+    this.saveUsers(users);
+    return { ok:true, userId };
+  },
+  login(username, password) {
+    const users = this.getUsers();
+    const uname = username.trim().toLowerCase();
+    const user = Object.values(users).find(u => u.username === uname);
+    if (!user) return { ok:false, msg:'نام کاربری یافت نشد.' };
+    if (user.password !== this.hashPwd(password)) return { ok:false, msg:'رمز عبور اشتباه است.' };
+    return { ok:true, user };
+  },
+  hashPwd(pwd) {
+    // Simple hash (not cryptographic - for demo)
+    let h = 0;
+    for (let i = 0; i < pwd.length; i++) { h = ((h << 5) - h) + pwd.charCodeAt(i); h |= 0; }
+    return 'h_' + Math.abs(h).toString(36) + '_' + pwd.length;
+  },
+  setSession(user) {
+    this.current = user;
+    StorageManager.save('session', { userId:user.id, ts:Date.now() });
+  },
+  restoreSession() {
+    const s = StorageManager.load('session');
+    if (!s) return null;
+    const users = this.getUsers();
+    if (users[s.userId]) { this.current = users[s.userId]; return this.current; }
+    return null;
+  },
+  clearSession() {
+    this.current = null;
+    StorageManager.remove('session');
+  },
+  updateProfile(name) {
+    if (!this.current) return;
+    const users = this.getUsers();
+    if (users[this.current.id]) {
+      users[this.current.id].name = name;
+      this.saveUsers(users);
+      this.current.name = name;
+    }
+  }
+};
+
+// ===== PLANNER (Day Data) =====
+const Planner = {
+  getDayData(userId, dateKey) {
+    const key = `user_${userId}_day_${dateKey}`;
+    return StorageManager.load(key, this.defaultDay());
+  },
+  saveDayData(userId, dateKey, data) {
+    const key = `user_${userId}_day_${dateKey}`;
+    StorageManager.save(key, data);
+  },
+  defaultDay() {
+    return {
+      top3: ['','',''],
+      top3Done: [false,false,false],
+      mustTasks: [],
+      shouldTasks: [],
+      couldTasks: [],
+      habits: {},
+      mood: null,
+      water: 0,
+      reflection: '',
+      notes: '',
+      notTodo: [],
+      morningRoutine: { done: [false,false,false,false,false] },
+      score: null,
+      completionRate: 0
+    };
+  },
+  computeScore(day, habitsTemplate) {
+    let s = 0;
+    // Top3: 40pts
+    const top3Done = (day.top3Done||[]).filter(Boolean).length;
+    const top3Defined = (day.top3||[]).filter(t => t.trim()).length;
+    if (top3Defined > 0) s += Math.round((top3Done / top3Defined) * 40);
+    else if (top3Done === 0) s += 0;
+
+    // Tasks: 30pts
+    const allTasks = [...(day.mustTasks||[]),...(day.shouldTasks||[]),...(day.couldTasks||[])];
+    if (allTasks.length > 0) {
+      const done = allTasks.filter(t => t.done).length;
+      s += Math.round((done / allTasks.length) * 30);
+    } else s += 0;
+
+    // Habits: 20pts
+    const habitKeys = Object.keys(habitsTemplate || {});
+    if (habitKeys.length > 0) {
+      const doneH = habitKeys.filter(k => day.habits && day.habits[k]).length;
+      s += Math.round((doneH / habitKeys.length) * 20);
+    } else s += 0;
+
+    // Reflection: 10pts
+    if (day.reflection && day.reflection.trim().length > 10) s += 10;
+
+    return Math.min(100, s);
+  }
+};
+
+// ===== ACHIEVEMENT MANAGER =====
+const AchievementManager = {
+  badges: [
+    { id:'first_day', icon:'🌱', name:'روز اول', desc:'اولین روز فعالیت', xp:50 },
+    { id:'streak_3', icon:'🔥', name:'۳ روز متوالی', desc:'۳ روز پشت سر هم', xp:100 },
+    { id:'streak_7', icon:'⚡', name:'یک هفته', desc:'۷ روز متوالی', xp:200 },
+    { id:'streak_30', icon:'💎', name:'یک ماه', desc:'۳۰ روز متوالی', xp:500 },
+    { id:'perfect_day', icon:'⭐', name:'روز کامل', desc:'امتیاز ۱۰۰', xp:150 },
+    { id:'habit_master', icon:'🏅', name:'استاد عادت', desc:'۱۰ عادت تکمیل', xp:200 },
+    { id:'goal_setter', icon:'🎯', name:'هدف‌گذار', desc:'اولین هدف ایجاد', xp:100 },
+    { id:'reflector', icon:'🌙', name:'درون‌نگر', desc:'۷ بار بازتاب', xp:150 },
+    { id:'top3_hero', icon:'🥇', name:'قهرمان Top3', desc:'۱۰ بار تکمیل', xp:200 },
+    { id:'water_champ', icon:'💧', name:'قهرمان آب', desc:'۷ روز ۸ لیوان', xp:150 },
+    { id:'early_bird', icon:'🌅', name:'بامداد', desc:'روتین صبح کامل', xp:100 },
+    { id:'centurion', icon:'💯', name:'صدتایی', desc:'امتیاز ۱۰۰۰ کل', xp:300 }
+  ],
+  levels: [
+    { level:1, name:'تازه‌کار', minXP:0 },
+    { level:2, name:'یادگیرنده', minXP:200 },
+    { level:3, name:'ماهر', minXP:500 },
+    { level:4, name:'حرفه‌ای', minXP:1000 },
+    { level:5, name:'استاد', minXP:2000 },
+    { level:6, name:'افسانه‌ای', minXP:5000 }
+  ],
+  getAchData(userId) {
+    return StorageManager.load(`user_${userId}_achievements`, { xp:0, unlocked:[], streak:0, lastActive:null });
+  },
+  saveAchData(userId, data) {
+    StorageManager.save(`user_${userId}_achievements`, data);
+  },
+  addXP(userId, amount) {
+    const d = this.getAchData(userId);
+    d.xp = (d.xp || 0) + amount;
+    this.saveAchData(userId, d);
+    return d;
+  },
+  unlock(userId, badgeId) {
+    const d = this.getAchData(userId);
+    if (!d.unlocked.includes(badgeId)) {
+      const badge = this.badges.find(b => b.id === badgeId);
+      d.unlocked.push(badgeId);
+      if (badge) d.xp = (d.xp || 0) + badge.xp;
+      this.saveAchData(userId, d);
+      return badge;
+    }
+    return null;
+  },
+  getLevel(xp) {
+    let lvl = this.levels[0];
+    for (const l of this.levels) { if (xp >= l.minXP) lvl = l; }
+    return lvl;
+  },
+  getNextLevel(xp) {
+    for (const l of this.levels) { if (xp < l.minXP) return l; }
+    return null;
+  },
+  updateStreak(userId) {
+    const d = this.getAchData(userId);
+    const today = Utils.getTodayKey();
+    if (d.lastActive === today) return d;
+    const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
+    const yKey = Utils.getDateKey(yesterday);
+    if (d.lastActive === yKey) d.streak = (d.streak||0)+1;
+    else if (d.lastActive !== today) d.streak = 1;
+    d.lastActive = today;
+    this.saveAchData(userId, d);
+    return d;
+  }
+};
+
+// ===== GOAL MANAGER =====
+const GoalManager = {
+  getGoals(userId) { return StorageManager.load(`user_${userId}_goals`, []); },
+  saveGoals(userId, goals) { StorageManager.save(`user_${userId}_goals`, goals); },
+  addGoal(userId, goal) {
+    const goals = this.getGoals(userId);
+    goal.id = Utils.generateId();
+    goal.progress = 0;
+    goal.createdAt = Date.now();
+    goals.push(goal);
+    this.saveGoals(userId, goals);
+    return goal;
+  },
+  toggleMilestone(userId, goalId, mIdx) {
+    const goals = this.getGoals(userId);
+    const g = goals.find(g => g.id === goalId);
+    if (!g) return;
+    g.milestones[mIdx].done = !g.milestones[mIdx].done;
+    g.progress = Math.round((g.milestones.filter(m=>m.done).length / g.milestones.length) * 100);
+    this.saveGoals(userId, goals);
+    return goals;
+  },
+  deleteGoal(userId, goalId) {
+    let goals = this.getGoals(userId);
+    goals = goals.filter(g => g.id !== goalId);
+    this.saveGoals(userId, goals);
+    return goals;
+  }
+};
+
+// ===== SUPPORT MANAGER =====
+const SupportManager = {
+  getMessages(userId) { return StorageManager.load(`user_${userId}_support`, []); },
+  saveMessages(userId, msgs) { StorageManager.save(`user_${userId}_support`, msgs); },
+  addMessage(userId, msg) {
+    const msgs = this.getMessages(userId);
+    msg.id = Utils.generateId();
+    msg.date = new Date().toISOString();
+    msg.status = 'new';
+    msgs.unshift(msg);
+    this.saveMessages(userId, msgs);
+    return msg;
+  }
+};
+
+// ===== SETTINGS MANAGER =====
+const SettingsManager = {
+  getSettings(userId) {
+    return StorageManager.load(`user_${userId}_settings`, { accentColor:'#00C9B8' });
+  },
+  saveSettings(userId, settings) {
+    StorageManager.save(`user_${userId}_settings`, settings);
+  }
+};
+
+// ===== HABIT MANAGER =====
+const HabitManager = {
+  getTemplates(userId) {
+    return StorageManager.load(`user_${userId}_habits_template`, this.defaultHabits());
+  },
+  saveTemplates(userId, templates) {
+    StorageManager.save(`user_${userId}_habits_template`, templates);
+  },
+  defaultHabits() {
+    return {
+      h1: { icon:'🏃', name:'ورزش' },
+      h2: { icon:'📖', name:'مطالعه' },
+      h3: { icon:'🧘', name:'مدیتیشن' }
+    };
+  },
+  addHabit(userId, name, icon) {
+    const templates = this.getTemplates(userId);
+    const id = 'h_' + Utils.generateId();
+    templates[id] = { icon, name };
+    this.saveTemplates(userId, templates);
+    return id;
+  },
+  deleteHabit(userId, id) {
+    const templates = this.getTemplates(userId);
+    delete templates[id];
+    this.saveTemplates(userId, templates);
+    return templates;
+  },
+  getStreak(userId, habitId) {
+    let streak = 0;
+    const today = new Date();
+    for (let i = 1; i <= 365; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const key = Utils.getDateKey(d);
+      const day = Planner.getDayData(userId, key);
+      if (day.habits && day.habits[habitId]) streak++;
+      else break;
+    }
+    return streak;
+  },
+  getCompletion(userId, habitId, days=30) {
+    let done = 0;
+    const today = new Date();
+    for (let i = 0; i < days; i++) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const key = Utils.getDateKey(d);
+      const day = Planner.getDayData(userId, key);
+      if (day.habits && day.habits[habitId]) done++;
+    }
+    return Math.round((done / days) * 100);
+  }
+};
+
+// ===== ANALYTICS MANAGER =====
+const AnalyticsManager = {
+  getWeeklyScores(userId) {
+    const scores = [];
+    const labels = [];
+    const today = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const key = Utils.getDateKey(d);
+      const day = Planner.getDayData(userId, key);
+      const habits = HabitManager.getTemplates(userId);
+      const s = day.score !== null ? day.score : Planner.computeScore(day, habits);
+      scores.push(s);
+      const jd = Utils.toJalali(d.getFullYear(), d.getMonth()+1, d.getDate());
+      labels.push(Utils.toFarsiNum(jd[2]));
+    }
+    return { scores, labels };
+  },
+  getMonthlyData(userId) {
+    const data = []; const labels = [];
+    const today = new Date();
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const key = Utils.getDateKey(d);
+      const day = Planner.getDayData(userId, key);
+      const habits = HabitManager.getTemplates(userId);
+      data.push(Planner.computeScore(day, habits));
+      if (i % 5 === 0) {
+        const jd = Utils.toJalali(d.getFullYear(), d.getMonth()+1, d.getDate());
+        labels.push(Utils.toFarsiNum(jd[2]));
+      } else labels.push('');
+    }
+    return { data, labels };
+  }
+};
+
+// ===== FOCUS MANAGER =====
+const FocusManager = {
+  duration: 25 * 60,
+  breakDuration: 5 * 60,
+  remaining: 25 * 60,
+  sessions: 0,
+  maxSessions: 4,
+  running: false,
+  isBreak: false,
+  interval: null,
+  quotes: [
+    'تمرکز کلید موفقیت است.',
+    'یک قدم در زمان. یک لحظه در لحظه.',
+    'اکنون اینجا باش.',
+    'با تمرکز کامل کار کن.',
+    'بهترین زمان شروع، همین لحظه است.'
+  ],
+  start() {
+    if (this.running) { clearInterval(this.interval); this.running=false; return; }
+    this.running = true;
+    this.interval = setInterval(() => {
+      this.remaining--;
+      if (this.remaining <= 0) {
+        clearInterval(this.interval);
+        this.running = false;
+        if (!this.isBreak) {
+          this.sessions++;
+          if (this.sessions >= this.maxSessions) { this.sessions=0; showToast('✅ همه جلسات تمام شد! استراحت بزرگ بگیرید.','success'); this.reset(); }
+          else { this.isBreak=true; this.remaining=this.breakDuration; showToast('☕ استراحت ۵ دقیقه‌ای','info'); this.start(); }
+        } else { this.isBreak=false; this.remaining=this.duration; showToast('▶️ شروع جلسه جدید','info'); }
+      }
+      UIManager.updateFocusDisplay();
+      UIManager.updatePomoDisplay();
+    }, 1000);
+  },
+  reset() {
+    clearInterval(this.interval);
+    this.running=false; this.isBreak=false;
+    this.remaining=this.duration;
+    UIManager.updateFocusDisplay();
+    UIManager.updatePomoDisplay();
+  },
+  formatTime(secs) {
+    const m = Math.floor(secs/60);
+    const s = secs%60;
+    return Utils.toFarsiNum(String(m).padStart(2,'0')) + ':' + Utils.toFarsiNum(String(s).padStart(2,'0'));
+  }
+};
+
+// ===== UI MANAGER =====
+const UIManager = {
+  currentPage: 'home',
+  sidebarCollapsed: false,
+  calYear: (function(){const t=new Date();const j=Utils.toJalali(t.getFullYear(),t.getMonth()+1,t.getDate());return j[0];})(),
+  calMonth: (function(){const t=new Date();const j=Utils.toJalali(t.getFullYear(),t.getMonth()+1,t.getDate());return j[1];})(),
+  selectedHabitIcon: '⭐',
+
+  init() {
+    this.renderWater();
+    this.renderMorningRoutine();
+    this.renderHabitIconPicker();
+    this.updateHeader();
+    setInterval(() => this.updateHeader(), 60000);
+  },
+
+  updateHeader() {
+    const d = document.getElementById('header-date');
+    if (d) d.textContent = Utils.getPersianDate();
+  },
+
+  renderAll() {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    const habits = HabitManager.getTemplates(uid);
+
+    this.updateSidebarUser();
+    this.renderTop3(day);
+    this.renderTasks('must', day);
+    this.renderTasks('should', day);
+    this.renderTasks('could', day);
+    this.renderHabits(day, habits);
+    this.renderMood(day.mood);
+    this.renderWater(day.water || 0);
+    this.renderMorningRoutine(day);
+    this.renderNotTodo(day);
+
+    const reflEl = document.getElementById('reflection-text');
+    if (reflEl) reflEl.value = day.reflection || '';
+    const notesEl = document.getElementById('daily-notes');
+    if (notesEl) notesEl.value = day.notes || '';
+
+    const score = Planner.computeScore(day, habits);
+    this.updateScore(score);
+    this.updateHomeStats(day);
+
+    const achD = AchievementManager.updateStreak(uid);
+    const streakEl = document.getElementById('streak-val');
+    if (streakEl) streakEl.textContent = Utils.toFarsiNum(achD.streak || 0);
+
+    // Daily quote
+    const quotes = [
+      '«موفقیت نتیجه تصمیم‌های کوچک هر روز است.»',
+      '«هر روز کوچکی بهتر شو.»',
+      '«انضباط آزادی است.»',
+      '«با تمرکز کامل کار کن.»',
+      '«هر قدم حساب می‌شود.»',
+      '«بزرگ‌ترین سرمایه‌گذاری، سرمایه‌گذاری روی خودت است.»',
+      '«ذهن آرام، عملکرد قوی.»'
+    ];
+    const qEl = document.getElementById('daily-quote');
+    if (qEl) qEl.textContent = quotes[new Date().getDay()];
+    const unEl = document.getElementById('home-username');
+    if (unEl) unEl.textContent = UserManager.current.name || 'کاربر';
+    const hdEl = document.getElementById('home-date-farsi');
+    if (hdEl) hdEl.textContent = Utils.getPersianDate();
+  },
+
+  updateSidebarUser() {
+    const u = UserManager.current;
+    if (!u) return;
+    const initials = (u.name||'؟')[0];
+    const avEl = document.getElementById('sidebar-avatar');
+    if (avEl) avEl.textContent = initials;
+    const unEl = document.getElementById('sidebar-username');
+    if (unEl) unEl.textContent = u.name || u.username;
+    const achD = AchievementManager.getAchData(u.id);
+    const lvl = AchievementManager.getLevel(achD.xp||0);
+    const lvlEl = document.getElementById('sidebar-level');
+    if (lvlEl) lvlEl.textContent = `سطح ${Utils.toFarsiNum(lvl.level)} • ${lvl.name}`;
+  },
+
+  updateScore(score) {
+    const hsEl = document.getElementById('header-score');
+    if (hsEl) hsEl.textContent = Utils.toFarsiNum(score);
+    const ring = document.getElementById('score-ring');
+    if (ring) {
+      const circ = 238.76;
+      ring.setAttribute('stroke-dashoffset', circ - (score/100)*circ);
+    }
+    const pctEl = document.getElementById('score-ring-pct');
+    if (pctEl) pctEl.textContent = Utils.toFarsiNum(score);
+    // Save score
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    day.score = score;
+    Planner.saveDayData(uid, today, day);
+    // Achievements
+    if (score === 100) {
+      const b = AchievementManager.unlock(uid, 'perfect_day');
+      if (b) showToast(`🏅 دستاورد جدید: ${b.name}`, 'success');
+    }
+  },
+
+  updateHomeStats(day) {
+    const all = [...(day.mustTasks||[]),...(day.shouldTasks||[]),...(day.couldTasks||[])];
+    const done = all.filter(t=>t.done).length;
+    const el = document.getElementById('tasks-done-val');
+    if (el) el.textContent = Utils.toFarsiNum(done);
+    const wEl = document.getElementById('water-val');
+    if (wEl) wEl.textContent = Utils.toFarsiNum(day.water||0);
+  },
+
+  renderTop3(day) {
+    const wrap = document.getElementById('top3-list');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    const numCls = ['n1','n2','n3'];
+    const labels = ['اول','دوم','سوم'];
+    for (let i = 0; i < 3; i++) {
+      const div = document.createElement('div');
+      div.className = 'top3-item' + (day.top3Done[i] ? ' done' : '');
+      div.style.marginBottom = '8px';
+
+      const num = document.createElement('div');
+      num.className = `top3-num ${numCls[i]}`;
+      num.textContent = labels[i];
+
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'top3-input';
+      inp.placeholder = `هدف ${labels[i]}...`;
+      inp.value = day.top3[i] || '';
+      inp.dataset.idx = i;
+      inp.addEventListener('input', Utils.debounce((e) => {
+        this.saveTop3Field(i, e.target.value);
+      }, 400));
+
+      const cb = document.createElement('div');
+      cb.className = 'top3-check' + (day.top3Done[i] ? ' checked' : '');
+      cb.textContent = day.top3Done[i] ? '✓' : '';
+      cb.addEventListener('click', () => this.toggleTop3(i));
+
+      div.appendChild(num);
+      div.appendChild(inp);
+      div.appendChild(cb);
+      wrap.appendChild(div);
+    }
+  },
+
+  saveTop3Field(idx, value) {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    day.top3[idx] = value;
+    Planner.saveDayData(uid, today, day);
+    const habits = HabitManager.getTemplates(uid);
+    this.updateScore(Planner.computeScore(day, habits));
+  },
+
+  toggleTop3(idx) {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    day.top3Done[idx] = !day.top3Done[idx];
+    Planner.saveDayData(uid, today, day);
+    this.renderTop3(day);
+    const habits = HabitManager.getTemplates(uid);
+    this.updateScore(Planner.computeScore(day, habits));
+    const achD = AchievementManager.getAchData(uid);
+    if (!achD.unlocked.includes('first_day')) {
+      const b = AchievementManager.unlock(uid, 'first_day');
+      if (b) showToast(`🏅 دستاورد: ${b.name}`, 'success');
+    }
+  },
+
+  renderTasks(type, day) {
+    const listId = `${type}-tasks-list`;
+    const wrap = document.getElementById(listId);
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    const key = `${type}Tasks`;
+    const tasks = day[key] || [];
+    tasks.forEach((task, idx) => {
+      const div = document.createElement('div');
+      div.className = 'task-item' + (task.done ? ' done' : '');
+
+      const cb = document.createElement('div');
+      cb.className = 'task-cb' + (task.done ? ' checked' : '') + (type==='must' ? ' must' : '');
+      cb.textContent = task.done ? '✓' : '';
+      cb.addEventListener('click', () => this.toggleTask(type, idx));
+
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'task-text' + (task.done ? ' strikethrough' : '');
+      inp.value = task.text || '';
+      inp.placeholder = 'وظیفه...';
+      inp.addEventListener('input', Utils.debounce((e) => {
+        this.updateTaskText(type, idx, e.target.value);
+      }, 400));
+      inp.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); this.addTask(type); }
+      });
+
+      const del = document.createElement('button');
+      del.className = 'task-del';
+      del.textContent = '✕';
+      del.addEventListener('click', () => this.deleteTask(type, idx));
+
+      div.appendChild(cb);
+      div.appendChild(inp);
+      div.appendChild(del);
+      wrap.appendChild(div);
+    });
+    const countEl = document.getElementById(`${type}-count`);
+    if (countEl) {
+      const done = tasks.filter(t=>t.done).length;
+      countEl.textContent = Utils.toFarsiNum(done) + '/' + Utils.toFarsiNum(tasks.length);
+    }
+  },
+
+  addTask(type) {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    const key = `${type}Tasks`;
+    if (!day[key]) day[key] = [];
+    day[key].push({ id:Utils.generateId(), text:'', done:false });
+    Planner.saveDayData(uid, today, day);
+    this.renderTasks(type, day);
+    // Focus last input
+    setTimeout(() => {
+      const wrap = document.getElementById(`${type}-tasks-list`);
+      const inputs = wrap.querySelectorAll('.task-text');
+      if (inputs.length) inputs[inputs.length-1].focus();
+    }, 50);
+  },
+
+  toggleTask(type, idx) {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    const key = `${type}Tasks`;
+    if (day[key] && day[key][idx]) day[key][idx].done = !day[key][idx].done;
+    Planner.saveDayData(uid, today, day);
+    this.renderTasks(type, day);
+    const habits = HabitManager.getTemplates(uid);
+    this.updateScore(Planner.computeScore(day, habits));
+    this.updateHomeStats(day);
+  },
+
+  updateTaskText(type, idx, text) {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    const key = `${type}Tasks`;
+    if (day[key] && day[key][idx]) day[key][idx].text = text;
+    Planner.saveDayData(uid, today, day);
+    const countEl = document.getElementById(`${type}-count`);
+    if (countEl) {
+      const tasks = day[key] || [];
+      const done = tasks.filter(t=>t.done).length;
+      countEl.textContent = Utils.toFarsiNum(done) + '/' + Utils.toFarsiNum(tasks.length);
+    }
+  },
+
+  deleteTask(type, idx) {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    const key = `${type}Tasks`;
+    if (day[key]) day[key].splice(idx, 1);
+    Planner.saveDayData(uid, today, day);
+    this.renderTasks(type, day);
+    const habits = HabitManager.getTemplates(uid);
+    this.updateScore(Planner.computeScore(day, habits));
+  },
+
+  renderHabits(day, templates) {
+    const wrap = document.getElementById('habits-list');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    const ids = Object.keys(templates);
+    if (!ids.length) {
+      wrap.innerHTML = '<div class="empty-state"><div class="empty-icon">🔄</div><div class="empty-title">عادتی ندارید</div></div>';
+      return;
+    }
+    ids.forEach(id => {
+      const h = templates[id];
+      const done = day.habits && day.habits[id];
+      const streak = HabitManager.getStreak(UserManager.current.id, id);
+      const pct = HabitManager.getCompletion(UserManager.current.id, id, 7);
+
+      const div = document.createElement('div');
+      div.className = 'habit-item';
+
+      const icon = document.createElement('span');
+      icon.className = 'habit-icon';
+      icon.textContent = h.icon;
+
+      const info = document.createElement('div');
+      info.className = 'habit-info';
+      const name = document.createElement('div');
+      name.className = 'habit-name';
+      name.textContent = h.name;
+      const st = document.createElement('div');
+      st.className = 'habit-streak';
+      st.textContent = `🔥 ${Utils.toFarsiNum(streak)} روز متوالی`;
+      const barW = document.createElement('div');
+      barW.className = 'habit-bar-wrap';
+      const barF = document.createElement('div');
+      barF.className = 'habit-bar-fill';
+      barF.style.width = pct + '%';
+      barW.appendChild(barF);
+      info.appendChild(name);
+      info.appendChild(st);
+      info.appendChild(barW);
+
+      const check = document.createElement('div');
+      check.className = 'habit-check' + (done ? ' done' : '');
+      check.textContent = done ? '✓' : '';
+      check.addEventListener('click', () => this.toggleHabit(id));
+
+      const del = document.createElement('button');
+      del.style.cssText='background:transparent;border:none;color:var(--text-muted);cursor:pointer;padding:4px;font-size:0.8rem;';
+      del.textContent='✕';
+      del.title='حذف عادت';
+      del.addEventListener('click', () => this.deleteHabit(id));
+
+      div.appendChild(icon);
+      div.appendChild(info);
+      div.appendChild(check);
+      div.appendChild(del);
+      wrap.appendChild(div);
+    });
+  },
+
+  toggleHabit(habitId) {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    if (!day.habits) day.habits = {};
+    day.habits[habitId] = !day.habits[habitId];
+    Planner.saveDayData(uid, today, day);
+    const templates = HabitManager.getTemplates(uid);
+    this.renderHabits(day, templates);
+    this.updateScore(Planner.computeScore(day, templates));
+  },
+
+  deleteHabit(habitId) {
+    const uid = UserManager.current.id;
+    const templates = HabitManager.deleteHabit(uid, habitId);
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    this.renderHabits(day, templates);
+  },
+
+  renderMood(mood) {
+    document.querySelectorAll('.mood-btn').forEach(btn => {
+      btn.classList.toggle('selected', parseInt(btn.dataset.mood) === mood);
+    });
+  },
+
+  renderWater(count=0) {
+    const wrap = document.getElementById('water-track');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    for (let i = 0; i < 8; i++) {
+      const cup = document.createElement('div');
+      cup.className = 'water-cup' + (i < count ? ' filled' : '');
+      cup.title = `لیوان ${Utils.toFarsiNum(i+1)}`;
+      cup.addEventListener('click', () => this.setWater(i+1 === count ? i : i+1));
+      wrap.appendChild(cup);
+    }
+    const el = document.getElementById('water-count-text');
+    if (el) el.textContent = Utils.toFarsiNum(count) + ' از ۸';
+    const wEl = document.getElementById('water-val');
+    if (wEl) wEl.textContent = Utils.toFarsiNum(count);
+  },
+
+  setWater(n) {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    day.water = n;
+    Planner.saveDayData(uid, today, day);
+    this.renderWater(n);
+  },
+
+  renderMorningRoutine(day) {
+    const items = ['نماز / مدیتیشن صبح','ورزش','دوش آب سرد','صبحانه سالم','مرور اهداف روز'];
+    const wrap = document.getElementById('morning-routine-list');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    const done = (day && day.morningRoutine && day.morningRoutine.done) || [false,false,false,false,false];
+    items.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'routine-item' + (done[i] ? ' done' : '');
+
+      const cb = document.createElement('div');
+      cb.className = 'routine-check' + (done[i] ? ' done' : '');
+      cb.textContent = done[i] ? '✓' : '';
+      cb.addEventListener('click', () => this.toggleMorning(i));
+
+      const lbl = document.createElement('span');
+      lbl.style.fontSize = '0.85rem';
+      lbl.textContent = item;
+      if (done[i]) lbl.style.textDecoration = 'line-through';
+
+      div.appendChild(cb);
+      div.appendChild(lbl);
+      wrap.appendChild(div);
+    });
+  },
+
+  toggleMorning(idx) {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    if (!day.morningRoutine) day.morningRoutine = { done:[false,false,false,false,false] };
+    day.morningRoutine.done[idx] = !day.morningRoutine.done[idx];
+    Planner.saveDayData(uid, today, day);
+    this.renderMorningRoutine(day);
+    if (day.morningRoutine.done.every(Boolean)) {
+      const b = AchievementManager.unlock(uid, 'early_bird');
+      if (b) showToast(`🏅 دستاورد: ${b.name}`, 'success');
+    }
+  },
+
+  renderNotTodo(day) {
+    const wrap = document.getElementById('nottodo-list');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    const items = day.notTodo || [];
+    items.forEach((item, idx) => {
+      const div = document.createElement('div');
+      div.className = 'nottodo-item';
+
+      const icon = document.createElement('span');
+      icon.className = 'nottodo-icon';
+      icon.textContent = '🚫';
+
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'nottodo-text';
+      inp.value = item;
+      inp.placeholder = 'چیزی که نباید انجام دهم...';
+      inp.addEventListener('input', Utils.debounce((e) => {
+        this.updateNotTodo(idx, e.target.value);
+      }, 400));
+
+      const del = document.createElement('button');
+      del.className = 'nottodo-del';
+      del.textContent = '✕';
+      del.addEventListener('click', () => this.deleteNotTodo(idx));
+
+      div.appendChild(icon);
+      div.appendChild(inp);
+      div.appendChild(del);
+      wrap.appendChild(div);
+    });
+  },
+
+  addNotTodo() {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    if (!day.notTodo) day.notTodo = [];
+    day.notTodo.push('');
+    Planner.saveDayData(uid, today, day);
+    this.renderNotTodo(day);
+  },
+
+  updateNotTodo(idx, value) {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    if (day.notTodo) day.notTodo[idx] = value;
+    Planner.saveDayData(uid, today, day);
+  },
+
+  deleteNotTodo(idx) {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    const day = Planner.getDayData(uid, today);
+    if (day.notTodo) day.notTodo.splice(idx, 1);
+    Planner.saveDayData(uid, today, day);
+    this.renderNotTodo(day);
+  },
+
+  renderHabitIconPicker() {
+    const icons = ['⭐','🏃','📖','🧘','💧','🍎','😴','💪','✍️','🎵','🌿','☀️','🧠','❤️','🎯','🏋️'];
+    const wrap = document.getElementById('habit-icon-picker');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    icons.forEach(icon => {
+      const btn = document.createElement('div');
+      btn.style.cssText='width:36px;height:36px;border:2px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;transition:all 0.2s;';
+      btn.textContent = icon;
+      btn.addEventListener('click', () => {
+        wrap.querySelectorAll('div').forEach(b => b.style.borderColor='var(--border)');
+        btn.style.borderColor = 'var(--primary)';
+        this.selectedHabitIcon = icon;
+      });
+      wrap.appendChild(btn);
+    });
+    this.selectedHabitIcon = '⭐';
+    if (wrap.firstChild) wrap.firstChild.style.borderColor = 'var(--primary)';
+  },
+
+  // ===== CALENDAR =====
+  renderCalendar() {
+    const uid = UserManager.current.id;
+    const y = this.calYear, m = this.calMonth;
+    const titleEl = document.getElementById('cal-title');
+    const persianMonths = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+    if (titleEl) titleEl.textContent = persianMonths[m-1] + ' ' + Utils.toFarsiNum(y);
+
+    const grid = document.getElementById('cal-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    const dayNames = ['ش','ی','د','س','چ','پ','ج'];
+    dayNames.forEach(n => {
+      const h = document.createElement('div');
+      h.className = 'cal-day-header';
+      h.textContent = n;
+      grid.appendChild(h);
+    });
+
+    const _gStart = Utils.jalaliToGregorian(y, m, 1);
+    const firstDay = new Date(_gStart[0], _gStart[1]-1, _gStart[2]).getDay();
+    const daysInMonth = m <= 6 ? 31 : (m <= 11 ? 30 : 29);
+    const today = new Date();
+    const todayKey = Utils.getDateKey(today);
+    const _todayJ = Utils.toJalali(today.getFullYear(), today.getMonth()+1, today.getDate());
+    const todayJDay = _todayJ[2], todayJMonth = _todayJ[1], todayJYear = _todayJ[0];
+
+    // Offset for Saturday-first (Jalali week)
+    const offset = (firstDay + 1) % 7;
+    for (let i = 0; i < offset; i++) {
+      const e = document.createElement('div');
+      e.className = 'cal-day empty';
+      grid.appendChild(e);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const _g = Utils.jalaliToGregorian(y, m, d);
+      const date = new Date(_g[0], _g[1]-1, _g[2]);
+      const key = Utils.getDateKey(date);
+      const day = Planner.getDayData(uid, key);
+      const habits = HabitManager.getTemplates(uid);
+      const score = day.score !== null && day.score !== undefined ? day.score : Planner.computeScore(day, habits);
+
+      const cell = document.createElement('div');
+      cell.className = 'cal-day';
+      if (y === todayJYear && m === todayJMonth && d === todayJDay) cell.classList.add('today');
+
+      let colorClass = '';
+      if (score >= 80) colorClass = 'green';
+      else if (score >= 60) colorClass = 'yellow';
+      else if (score >= 40) colorClass = 'orange';
+      else if (score > 0) colorClass = 'red';
+      if (colorClass) cell.classList.add(colorClass);
+
+      const num = document.createElement('div');
+      num.className = 'cal-day-num';
+      num.textContent = Utils.toFarsiNum(d);
+
+      const scoreEl = document.createElement('div');
+      scoreEl.className = 'cal-day-score';
+      if (score > 0) scoreEl.textContent = Utils.toFarsiNum(score) + '%';
+
+      cell.appendChild(num);
+      cell.appendChild(scoreEl);
+      cell.addEventListener('click', () => this.showCalDayDetail(key));
+      grid.appendChild(cell);
+    }
+  },
+
+  showCalDayDetail(key) {
+    const uid = UserManager.current.id;
+    const day = Planner.getDayData(uid, key);
+    const habits = HabitManager.getTemplates(uid);
+    const score = Planner.computeScore(day, habits);
+    const detailWrap = document.getElementById('cal-day-detail');
+    const detailTitle = document.getElementById('cal-detail-title');
+    const detailInfo = document.getElementById('cal-day-info');
+    if (!detailWrap || !detailInfo) return;
+    detailWrap.style.display = 'block';
+    if (detailTitle) detailTitle.textContent = Utils.formatDate(key);
+    const allTasks = [...(day.mustTasks||[]),...(day.shouldTasks||[]),...(day.couldTasks||[])];
+    const done = allTasks.filter(t=>t.done).length;
+    detailInfo.innerHTML = '';
+    const rows = [
+      ['📊 امتیاز', Utils.toFarsiNum(score)],
+      ['✅ وظایف تکمیل', `${Utils.toFarsiNum(done)}/${Utils.toFarsiNum(allTasks.length)}`],
+      ['😊 خلق‌وخو', day.mood ? ['','😞','😔','😐','😊','😄'][day.mood] : '-'],
+      ['💧 آب', Utils.toFarsiNum(day.water||0) + ' لیوان'],
+    ];
+    rows.forEach(([lbl, val]) => {
+      const row = document.createElement('div');
+      row.style.cssText='display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:0.85rem;';
+      const l = document.createElement('span');
+      l.style.color='var(--text-muted)'; l.textContent = lbl;
+      const v = document.createElement('span');
+      v.style.marginRight='auto'; v.style.fontWeight='600'; v.textContent = val;
+      row.appendChild(l); row.appendChild(v);
+      detailInfo.appendChild(row);
+    });
+    if (day.reflection) {
+      const rDiv = document.createElement('div');
+      rDiv.style.cssText='margin-top:12px;font-size:0.83rem;color:var(--text-secondary);font-style:italic;';
+      rDiv.textContent = '💭 ' + day.reflection;
+      detailInfo.appendChild(rDiv);
+    }
+    detailWrap.scrollIntoView({ behavior:'smooth' });
+  },
+
+  // ===== ANALYTICS CHARTS =====
+  renderAnalytics() {
+    const uid = UserManager.current.id;
+    this.renderWeeklyScoreChart(uid);
+    this.renderTaskPie(uid);
+    this.renderMonthlyBar(uid);
+    this.renderHeatmap(uid);
+    this.renderMoodChart(uid);
+    this.renderHabitChart(uid);
+    this.updateAnalyticsStats(uid);
+  },
+
+  updateAnalyticsStats(uid) {
+    const { scores } = AnalyticsManager.getWeeklyScores(uid);
+    const today = Utils.getTodayKey();
+    let totalT=0, doneT=0;
+    for (let i=6; i>=0; i--) {
+      const d = new Date(); d.setDate(d.getDate()-i);
+      const day = Planner.getDayData(uid, Utils.getDateKey(d));
+      const all = [...(day.mustTasks||[]),...(day.shouldTasks||[]),...(day.couldTasks||[])];
+      totalT += all.length; doneT += all.filter(t=>t.done).length;
+    }
+    const el = id => document.getElementById(id);
+    if (el('an-total-tasks')) el('an-total-tasks').textContent = Utils.toFarsiNum(totalT);
+    if (el('an-done-tasks')) el('an-done-tasks').textContent = Utils.toFarsiNum(doneT);
+    const habitPct = Math.round((scores.reduce((a,b)=>a+b,0)/scores.length)||0);
+    if (el('an-habits')) el('an-habits').textContent = Utils.toFarsiNum(habitPct) + '%';
+    const avg = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) || 0;
+    if (el('an-avg-score')) el('an-avg-score').textContent = Utils.toFarsiNum(avg);
+  },
+
+  drawLineChart(canvasId, labels, data, color='#00C9B8') {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.offsetWidth || 400;
+    const H = canvas.height || 160;
+    canvas.width = W;
+    ctx.clearRect(0,0,W,H);
+    if (!data.length) return;
+    const max = Math.max(...data, 100);
+    const pad = { top:20, right:20, bottom:30, left:10 };
+    const w = W - pad.left - pad.right;
+    const h = H - pad.top - pad.bottom;
+    const stepX = w / (data.length - 1 || 1);
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.lineWidth = 1;
+    [0,25,50,75,100].forEach(v => {
+      const y = pad.top + h - (v/max)*h;
+      ctx.beginPath(); ctx.moveTo(pad.left,y); ctx.lineTo(pad.left+w,y); ctx.stroke();
+    });
+
+    // Gradient fill
+    const grad = ctx.createLinearGradient(0,pad.top,0,pad.top+h);
+    grad.addColorStop(0, color.replace(')', ',0.3)').replace('rgb','rgba'));
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, pad.top + h);
+    data.forEach((v, i) => {
+      const x = pad.left + i*stepX;
+      const y = pad.top + h - (v/max)*h;
+      if (i===0) ctx.lineTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.lineTo(pad.left + (data.length-1)*stepX, pad.top+h);
+    ctx.closePath(); ctx.fill();
+
+    // Line
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2.5;
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    data.forEach((v, i) => {
+      const x = pad.left + i*stepX;
+      const y = pad.top + h - (v/max)*h;
+      if (i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+
+    // Dots
+    data.forEach((v, i) => {
+      const x = pad.left + i*stepX;
+      const y = pad.top + h - (v/max)*h;
+      ctx.fillStyle = color;
+      ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(x,y,2,0,Math.PI*2); ctx.fill();
+    });
+
+    // Labels
+    ctx.fillStyle = 'rgba(144,144,168,0.7)';
+    ctx.font = '10px Vazirmatn,sans-serif';
+    ctx.textAlign = 'center';
+    labels.forEach((lbl, i) => {
+      if (lbl) ctx.fillText(lbl, pad.left + i*stepX, H-8);
+    });
+  },
+
+  drawBarChart(canvasId, labels, data, color='#00C9B8') {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.offsetWidth || 600;
+    const H = canvas.height || 120;
+    canvas.width = W;
+    ctx.clearRect(0,0,W,H);
+    if (!data.length) return;
+    const max = Math.max(...data, 100);
+    const pad = { top:10, right:10, bottom:20, left:10 };
+    const w = W - pad.left - pad.right;
+    const h = H - pad.top - pad.bottom;
+    const bw = w / data.length - 3;
+
+    data.forEach((v, i) => {
+      const x = pad.left + i*(bw+3);
+      const bh = (v/max)*h;
+      const y = pad.top + h - bh;
+      const grad = ctx.createLinearGradient(x,y,x,pad.top+h);
+      grad.addColorStop(0, '#00C9B8');
+      grad.addColorStop(1, 'rgba(0,201,184,0.3)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.roundRect(x, y, bw, bh, [3,3,0,0]);
+      ctx.fill();
+      if (labels[i]) {
+        ctx.fillStyle = 'rgba(144,144,168,0.6)';
+        ctx.font = '9px Vazirmatn,sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(labels[i], x+bw/2, H-4);
+      }
+    });
+  },
+
+  drawPieChart(canvasId, labels, data, colors) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.offsetWidth || 200;
+    const H = canvas.height || 160;
+    canvas.width = W;
+    ctx.clearRect(0,0,W,H);
+    const total = data.reduce((a,b)=>a+b,0);
+    if (!total) return;
+    const cx = W*0.35, cy = H/2, r = Math.min(cx,cy)-10;
+    let startAngle = -Math.PI/2;
+    data.forEach((v, i) => {
+      const slice = (v/total) * Math.PI*2;
+      ctx.fillStyle = colors[i];
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      ctx.arc(cx, cy, r, startAngle, startAngle+slice);
+      ctx.closePath(); ctx.fill();
+      startAngle += slice;
+    });
+    // Donut hole
+    ctx.fillStyle = 'var(--bg-card)' || '#262632';
+    ctx.beginPath(); ctx.arc(cx,cy,r*0.5,0,Math.PI*2); ctx.fill();
+    // Legend
+    ctx.font = '11px Vazirmatn,sans-serif';
+    labels.forEach((lbl, i) => {
+      const x = W*0.65, y = 30 + i*22;
+      ctx.fillStyle = colors[i];
+      ctx.fillRect(x, y-10, 12, 12);
+      ctx.fillStyle = 'rgba(144,144,168,0.9)';
+      ctx.textAlign = 'right';
+      ctx.fillText(lbl + ' (' + Utils.toFarsiNum(data[i]) + ')', W-10, y);
+    });
+  },
+
+  renderWeeklyScoreChart(uid) {
+    const { scores, labels } = AnalyticsManager.getWeeklyScores(uid);
+    this.drawLineChart('weekly-score-chart', labels, scores);
+    this.drawLineChart('weekly-review-chart', labels, scores);
+  },
+
+  renderTaskPie(uid) {
+    let must=0, should=0, could=0;
+    for (let i=0; i<7; i++) {
+      const d=new Date(); d.setDate(d.getDate()-i);
+      const day = Planner.getDayData(uid, Utils.getDateKey(d));
+      must += (day.mustTasks||[]).filter(t=>t.done).length;
+      should += (day.shouldTasks||[]).filter(t=>t.done).length;
+      could += (day.couldTasks||[]).filter(t=>t.done).length;
+    }
+    this.drawPieChart('task-pie-chart',
+      ['ضروری','مهم','اختیاری'],
+      [must, should, could],
+      ['#ef4444','#eab308','#22c55e']
+    );
+  },
+
+  renderMonthlyBar(uid) {
+    const { data, labels } = AnalyticsManager.getMonthlyData(uid);
+    this.drawBarChart('monthly-bar-chart', labels, data);
+  },
+
+  renderHeatmap(uid) {
+    const grid = document.getElementById('heatmap-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    const today = new Date();
+    const habits = HabitManager.getTemplates(uid);
+    for (let i = 363; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const key = Utils.getDateKey(d);
+      const day = Planner.getDayData(uid, key);
+      const score = day.score !== null && day.score !== undefined ? day.score : Planner.computeScore(day, habits);
+      const cell = document.createElement('div');
+      cell.className = 'heatmap-cell';
+      if (score >= 80) cell.classList.add('l4');
+      else if (score >= 60) cell.classList.add('l3');
+      else if (score >= 40) cell.classList.add('l2');
+      else if (score > 0) cell.classList.add('l1');
+      cell.title = key + ': ' + score;
+      grid.appendChild(cell);
+    }
+  },
+
+  renderMoodChart(uid) {
+    const moods = [];
+    const labels = [];
+    for (let i=6; i>=0; i--) {
+      const d=new Date(); d.setDate(d.getDate()-i);
+      const day = Planner.getDayData(uid, Utils.getDateKey(d));
+      moods.push(day.mood || 0);
+      const jd = Utils.toJalali(d.getFullYear(),d.getMonth()+1,d.getDate());
+      labels.push(Utils.toFarsiNum(jd[2]));
+    }
+    this.drawLineChart('mood-chart', labels, moods.map(m=>m*20), '#D4A843');
+  },
+
+  renderHabitChart(uid) {
+    const templates = HabitManager.getTemplates(uid);
+    const ids = Object.keys(templates).slice(0,5);
+    const data = ids.map(id => HabitManager.getCompletion(uid, id, 30));
+    const labels = ids.map(id => templates[id].icon);
+    const canvas = document.getElementById('habit-chart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.offsetWidth || 300;
+    const H = 160;
+    canvas.width = W;
+    ctx.clearRect(0,0,W,H);
+    if (!ids.length) return;
+    const pad = 20;
+    const bw = (W - pad*2) / ids.length - 6;
+    const maxH = H - pad*2;
+    ids.forEach((id, i) => {
+      const x = pad + i*(bw+6);
+      const h = (data[i]/100)*maxH;
+      const y = pad + maxH - h;
+      ctx.fillStyle = 'rgba(0,201,184,0.7)';
+      ctx.beginPath();
+      ctx.roundRect(x, y, bw, h, [3,3,0,0]);
+      ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
+      ctx.font = '14px Vazirmatn,sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(labels[i], x+bw/2, H-4);
+    });
+  },
+
+  // ===== GOALS =====
+  renderGoals() {
+    const uid = UserManager.current.id;
+    const goals = GoalManager.getGoals(uid);
+    const wrap = document.getElementById('goals-list');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    if (!goals.length) {
+      wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">🎯</div><div class="empty-title">هدفی تعریف نشده</div><div class="empty-desc">اهداف بلندمدت خود را اینجا ثبت کنید</div></div>`;
+      return;
+    }
+    goals.forEach(goal => {
+      const div = document.createElement('div');
+      div.className = 'goal-item';
+      const ms = goal.milestones || [];
+      const msHtml = ms.map((m, i) =>
+        `<div class="milestone-item" onclick="toggleMilestone('${goal.id}',${i})">
+          <div class="milestone-check${m.done?' done':''}">✓</div>
+          ${Utils.escapeHtml(m.text)}
+        </div>`
+      ).join('');
+      div.innerHTML = `
+        <div class="goal-header">
+          <div class="goal-icon-wrap">${Utils.escapeHtml(goal.icon||'🎯')}</div>
+          <div style="flex:1;">
+            <div class="goal-title">${Utils.escapeHtml(goal.title)}</div>
+            ${goal.deadline ? `<div class="goal-deadline">⏰ مهلت: ${goal.deadline}</div>` : ''}
+          </div>
+          <div class="goal-pct">${Utils.toFarsiNum(goal.progress||0)}%</div>
+          <button style="background:transparent;border:none;color:var(--text-muted);cursor:pointer;padding:4px;" onclick="deleteGoal('${goal.id}')">✕</button>
+        </div>
+        <div class="goal-bar-wrap"><div class="goal-bar-fill" style="width:${goal.progress||0}%"></div></div>
+        ${ms.length ? `<div class="milestone-list">${msHtml}</div>` : ''}
+      `;
+      wrap.appendChild(div);
+    });
+  },
+
+  // ===== ACHIEVEMENTS =====
+  renderAchievements() {
+    const uid = UserManager.current.id;
+    const achD = AchievementManager.getAchData(uid);
+    const lvl = AchievementManager.getLevel(achD.xp||0);
+    const nextLvl = AchievementManager.getNextLevel(achD.xp||0);
+    const user = UserManager.current;
+
+    const initials = (user.name||'؟')[0];
+    const achAv = document.getElementById('ach-avatar');
+    if (achAv) achAv.textContent = initials;
+    const achUn = document.getElementById('ach-username');
+    if (achUn) achUn.textContent = user.name;
+    const achLv = document.getElementById('ach-level-text');
+    if (achLv) achLv.textContent = `سطح ${Utils.toFarsiNum(lvl.level)} • ${lvl.name}`;
+    const xpC = document.getElementById('xp-current');
+    if (xpC) xpC.textContent = Utils.toFarsiNum(achD.xp||0);
+    const xpN = document.getElementById('xp-next');
+    if (xpN) xpN.textContent = nextLvl ? Utils.toFarsiNum(nextLvl.minXP) : '∞';
+    const xpBar = document.getElementById('xp-bar');
+    if (xpBar && nextLvl) {
+      const pct = ((achD.xp - lvl.minXP) / (nextLvl.minXP - lvl.minXP)) * 100;
+      xpBar.style.width = Math.min(100, pct) + '%';
+    }
+    const stEl = document.getElementById('ach-streak');
+    if (stEl) stEl.textContent = Utils.toFarsiNum(achD.streak||0);
+
+    const grid = document.getElementById('badges-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    AchievementManager.badges.forEach(badge => {
+      const unlocked = (achD.unlocked||[]).includes(badge.id);
+      const div = document.createElement('div');
+      div.className = 'badge-card' + (!unlocked ? ' locked' : '');
+      div.innerHTML = `<div class="badge-icon">${badge.icon}</div><div class="badge-name">${badge.name}</div><div style="font-size:0.65rem;color:var(--gold);margin-top:2px;">${Utils.toFarsiNum(badge.xp)} XP</div>`;
+      div.title = badge.desc;
+      grid.appendChild(div);
+    });
+  },
+
+  // ===== WEEKLY REVIEW =====
+  renderWeeklyReview() {
+    const uid = UserManager.current.id;
+    const { scores } = AnalyticsManager.getWeeklyScores(uid);
+    const avg = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) || 0;
+    let doneT=0, totalH=0, doneH=0, activeDays=0;
+    const templates = HabitManager.getTemplates(uid);
+    const hKeys = Object.keys(templates);
+    for (let i=0; i<7; i++) {
+      const d=new Date(); d.setDate(d.getDate()-i);
+      const day = Planner.getDayData(uid, Utils.getDateKey(d));
+      const all = [...(day.mustTasks||[]),...(day.shouldTasks||[]),...(day.couldTasks||[])];
+      doneT += all.filter(t=>t.done).length;
+      hKeys.forEach(k => { totalH++; if (day.habits && day.habits[k]) doneH++; });
+      if (scores[6-i] > 0) activeDays++;
+    }
+    const el = id => document.getElementById(id);
+    if (el('wk-done')) el('wk-done').textContent = Utils.toFarsiNum(doneT);
+    if (el('wk-habits')) el('wk-habits').textContent = Utils.toFarsiNum(totalH?Math.round((doneH/totalH)*100):0) + '%';
+    if (el('wk-avg')) el('wk-avg').textContent = Utils.toFarsiNum(avg);
+    if (el('wk-streak')) el('wk-streak').textContent = Utils.toFarsiNum(activeDays);
+
+    this.renderWeeklyScoreChart(uid);
+
+    const strengths = [];
+    const suggestions = [];
+    if (avg >= 80) strengths.push('📈 میانگین امتیاز عالی داشتید');
+    if (avg >= 60) strengths.push('✅ عملکرد خوب این هفته');
+    if (doneT >= 10) strengths.push('🎯 وظایف زیادی انجام دادید');
+    if (activeDays >= 5) strengths.push('💪 فعالیت منظم داشتید');
+    if (avg < 60) suggestions.push('⚡ سعی کنید روزانه Top3 تکمیل کنید');
+    if (totalH && doneH/totalH < 0.6) suggestions.push('🔄 عادت‌هایتان را پیگیری کنید');
+    suggestions.push('📝 هر شب بازتاب بنویسید');
+    suggestions.push('💧 آب کافی بنوشید');
+
+    const str = el('weekly-strengths');
+    if (str) str.innerHTML = strengths.length ? strengths.map(s=>`<div style="padding:4px 0;">• ${s}</div>`).join('') : '<div>این هفته فعالیتی ثبت نشده</div>';
+    const sug = el('weekly-suggestions');
+    if (sug) sug.innerHTML = suggestions.map(s=>`<div style="padding:4px 0;">• ${s}</div>`).join('');
+  },
+
+  // ===== SUPPORT =====
+  renderSupport() {
+    const uid = UserManager.current.id;
+    const msgs = SupportManager.getMessages(uid);
+    const wrap = document.getElementById('support-history');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    if (!msgs.length) {
+      wrap.innerHTML = '<div class="empty-state"><div class="empty-icon">💬</div><div class="empty-title">پیامی وجود ندارد</div></div>';
+      return;
+    }
+    const statusMap = { new:'جدید', reviewing:'در حال بررسی', answered:'پاسخ داده شده', closed:'بسته شده' };
+    msgs.forEach(msg => {
+      const div = document.createElement('div');
+      div.className = 'support-msg-card';
+      const date = new Date(msg.date).toLocaleDateString('fa-IR');
+      div.innerHTML = `
+        <div class="support-msg-header">
+          <span style="font-size:0.85rem;font-weight:600;">${Utils.escapeHtml(msg.subject)}</span>
+          <span class="support-status ${msg.status}">${statusMap[msg.status]||msg.status}</span>
+          <span style="font-size:0.72rem;color:var(--text-muted);margin-right:auto;">${date}</span>
+        </div>
+        <div style="font-size:0.82rem;color:var(--text-secondary);">${Utils.escapeHtml(msg.message||'').substring(0,100)}${(msg.message||'').length>100?'...':''}</div>
+      `;
+      wrap.appendChild(div);
+    });
+  },
+
+  // ===== PROFILE =====
+  renderProfile() {
+    const u = UserManager.current;
+    const initials = (u.name||'؟')[0];
+    const avEl = document.getElementById('profile-avatar');
+    if (avEl) avEl.textContent = initials;
+    const nmEl = document.getElementById('profile-name');
+    if (nmEl) nmEl.textContent = u.name || u.username;
+    const unDisp = document.getElementById('profile-username-display');
+    if (unDisp) unDisp.textContent = '@' + (u.username||'');
+    const inp = document.getElementById('profile-name-input');
+    if (inp) inp.value = u.name || '';
+  },
+
+  // ===== FOCUS =====
+  updateFocusDisplay() {
+    const el = document.getElementById('focus-timer-display');
+    if (el) el.textContent = FocusManager.formatTime(FocusManager.remaining);
+    const sess = document.getElementById('focus-session-text');
+    if (sess) sess.textContent = `جلسه ${Utils.toFarsiNum(FocusManager.sessions+1)} از ${Utils.toFarsiNum(FocusManager.maxSessions)}`;
+    const btn = document.getElementById('focus-start-btn');
+    if (btn) btn.textContent = FocusManager.running ? 'توقف' : 'شروع';
+    const quotes = FocusManager.quotes;
+    const qEl = document.getElementById('focus-quote-text');
+    if (qEl) qEl.textContent = quotes[Math.floor(Math.random()*quotes.length)];
+  },
+
+  updatePomoDisplay() {
+    const total = FocusManager.isBreak ? FocusManager.breakDuration : FocusManager.duration;
+    const pct = FocusManager.remaining / total;
+    const ring = document.getElementById('pomo-ring');
+    if (ring) { const c=326.73; ring.setAttribute('stroke-dashoffset', c - (1-pct)*c); }
+    const disp = document.getElementById('pomo-display');
+    if (disp) disp.textContent = FocusManager.formatTime(FocusManager.remaining);
+    const lbl = document.getElementById('pomo-mode-lbl');
+    if (lbl) lbl.textContent = FocusManager.isBreak ? 'استراحت' : 'کار';
+    const sess = document.getElementById('pomo-sessions');
+    if (sess) sess.textContent = `جلسه ${Utils.toFarsiNum(FocusManager.sessions+1)} از ${Utils.toFarsiNum(FocusManager.maxSessions)}`;
+    const btn = document.getElementById('pomo-start-btn');
+    if (btn) btn.textContent = FocusManager.running ? 'توقف' : 'شروع';
+  }
+};
+
+// ===== GLOBAL FUNCTIONS =====
+function navigateTo(page) {
+  UIManager.currentPage = page;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const pageEl = document.getElementById(`page-${page}`);
+  if (pageEl) pageEl.classList.add('active');
+  const navEl = document.querySelector(`.nav-item[data-page="${page}"]`);
+  if (navEl) navEl.classList.add('active');
+  // Close mobile sidebar
+  closeMobileSidebar();
+  // Render page specific content
+  if (page === 'home') UIManager.renderAll();
+  else if (page === 'calendar') { const _t=new Date();const _j=Utils.toJalali(_t.getFullYear(),_t.getMonth()+1,_t.getDate());UIManager.calYear=_j[0];UIManager.calMonth=_j[1];UIManager.renderCalendar(); }
+  else if (page === 'analytics') UIManager.renderAnalytics();
+  else if (page === 'goals') UIManager.renderGoals();
+  else if (page === 'achievements') UIManager.renderAchievements();
+  else if (page === 'weekly') UIManager.renderWeeklyReview();
+  else if (page === 'support') UIManager.renderSupport();
+  else if (page === 'profile') UIManager.renderProfile();
+  document.getElementById('content').scrollTop = 0;
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const main = document.getElementById('main');
+  const isMobile = window.innerWidth <= 900;
+  if (isMobile) {
+    sidebar.classList.toggle('mobile-open');
+    document.getElementById('mobile-overlay').classList.toggle('open', sidebar.classList.contains('mobile-open'));
+  } else {
+    UIManager.sidebarCollapsed = !UIManager.sidebarCollapsed;
+    sidebar.classList.toggle('collapsed', UIManager.sidebarCollapsed);
+    main.classList.toggle('expanded', UIManager.sidebarCollapsed);
+  }
+}
+
+function closeMobileSidebar() {
+  document.getElementById('sidebar').classList.remove('mobile-open');
+  document.getElementById('mobile-overlay').classList.remove('open');
+}
+
+function calPrev() { UIManager.calMonth--; if(UIManager.calMonth<1){UIManager.calMonth=12;UIManager.calYear--;} UIManager.renderCalendar(); }
+function calNext() { UIManager.calMonth++; if(UIManager.calMonth>12){UIManager.calMonth=1;UIManager.calYear++;} UIManager.renderCalendar(); }
+
+function setMood(m) {
+  const uid = UserManager.current.id;
+  const today = Utils.getTodayKey();
+  const day = Planner.getDayData(uid, today);
+  day.mood = m;
+  Planner.saveDayData(uid, today, day);
+  UIManager.renderMood(m);
+}
+
+function addTask(type) { UIManager.addTask(type); }
+function addNotTodo() { UIManager.addNotTodo(); }
+
+function saveReflection() {
+  const uid = UserManager.current.id;
+  const today = Utils.getTodayKey();
+  const day = Planner.getDayData(uid, today);
+  const el = document.getElementById('reflection-text');
+  if (el) { day.reflection = el.value; Planner.saveDayData(uid, today, day); }
+  const habits = HabitManager.getTemplates(uid);
+  UIManager.updateScore(Planner.computeScore(day, habits));
+}
+
+function saveNotes() {
+  const uid = UserManager.current.id;
+  const today = Utils.getTodayKey();
+  const day = Planner.getDayData(uid, today);
+  const el = document.getElementById('daily-notes');
+  if (el) { day.notes = el.value; Planner.saveDayData(uid, today, day); }
+}
+
+function openAddHabitModal() { openModal('habit-modal'); UIManager.renderHabitIconPicker(); }
+
+function confirmAddHabit() {
+  const name = document.getElementById('habit-name-input').value.trim();
+  if (!name) { showToast('نام عادت را وارد کنید', 'error'); return; }
+  HabitManager.addHabit(UserManager.current.id, name, UIManager.selectedHabitIcon);
+  closeModal('habit-modal');
+  document.getElementById('habit-name-input').value = '';
+  const uid = UserManager.current.id;
+  const today = Utils.getTodayKey();
+  const day = Planner.getDayData(uid, today);
+  const templates = HabitManager.getTemplates(uid);
+  UIManager.renderHabits(day, templates);
+  showToast('عادت اضافه شد ✅', 'success');
+}
+
+function openGoalModal() { openModal('goal-modal'); }
+
+function confirmAddGoal() {
+  const title = document.getElementById('goal-title-input').value.trim();
+  const icon = document.getElementById('goal-icon-input').value.trim() || '🎯';
+  const desc = document.getElementById('goal-desc-input').value.trim();
+  const deadline = document.getElementById('goal-deadline-input').value;
+  const m1 = document.getElementById('goal-m1').value.trim();
+  const m2 = document.getElementById('goal-m2').value.trim();
+  const m3 = document.getElementById('goal-m3').value.trim();
+  if (!title) { showToast('عنوان هدف الزامی است', 'error'); return; }
+  const milestones = [m1,m2,m3].filter(Boolean).map(t=>({text:t,done:false}));
+  GoalManager.addGoal(UserManager.current.id, { title, icon, desc, deadline, milestones });
+  closeModal('goal-modal');
+  document.getElementById('goal-title-input').value='';
+  document.getElementById('goal-icon-input').value='';
+  document.getElementById('goal-desc-input').value='';
+  document.getElementById('goal-deadline-input').value='';
+  document.getElementById('goal-m1').value='';
+  document.getElementById('goal-m2').value='';
+  document.getElementById('goal-m3').value='';
+  UIManager.renderGoals();
+  showToast('هدف اضافه شد 🎯', 'success');
+  const b = AchievementManager.unlock(UserManager.current.id, 'goal_setter');
+  if (b) showToast(`🏅 دستاورد: ${b.name}`, 'success');
+}
+
+function deleteGoal(id) {
+  GoalManager.deleteGoal(UserManager.current.id, id);
+  UIManager.renderGoals();
+  showToast('هدف حذف شد', 'info');
+}
+
+function toggleMilestone(goalId, mIdx) {
+  GoalManager.toggleMilestone(UserManager.current.id, goalId, mIdx);
+  UIManager.renderGoals();
+}
+
+function submitSupport() {
+  const subject = document.getElementById('support-subject').value.trim();
+  const type = document.getElementById('support-type').value;
+  const message = document.getElementById('support-message').value.trim();
+  if (!subject || !message) { showToast('لطفاً همه فیلدها را پر کنید', 'error'); return; }
+  SupportManager.addMessage(UserManager.current.id, { subject, type, message, userId:UserManager.current.id, name:UserManager.current.name });
+  document.getElementById('support-subject').value='';
+  document.getElementById('support-message').value='';
+  UIManager.renderSupport();
+  showToast('پیام ارسال شد ✅', 'success');
+}
+
+function saveProfile() {
+  const name = document.getElementById('profile-name-input').value.trim();
+  if (!name) { showToast('نام نمی‌تواند خالی باشد', 'error'); return; }
+  UserManager.updateProfile(name);
+  UIManager.renderProfile();
+  UIManager.updateSidebarUser();
+  showToast('پروفایل ذخیره شد ✅', 'success');
+}
+
+function exportData() {
+  const data = StorageManager.exportAll(UserManager.current.id);
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `mazd_backup_${UserManager.current.username}_${Utils.getTodayKey()}.json`;
+  a.click();
+  showToast('داده‌ها دانلود شد ✅', 'success');
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      StorageManager.importAll(data);
+      showToast('داده‌ها بازیابی شد ✅', 'success');
+      UIManager.renderAll();
+    } catch { showToast('فایل نامعتبر است', 'error'); }
+  };
+  reader.readAsText(file);
+}
+
+function confirmReset() {
+  if (confirm('⚠️ آیا مطمئن هستید؟ تمام داده‌های امروز حذف خواهد شد!')) {
+    const uid = UserManager.current.id;
+    const today = Utils.getTodayKey();
+    Planner.saveDayData(uid, today, Planner.defaultDay());
+    UIManager.renderAll();
+    showToast('داده‌های امروز پاک شد', 'info');
+  }
+}
+
+function setAccentColor(color) {
+  document.documentElement.style.setProperty('--primary', color);
+  document.documentElement.style.setProperty('--primary-dark', color);
+  const uid = UserManager.current.id;
+  const settings = SettingsManager.getSettings(uid);
+  settings.accentColor = color;
+  SettingsManager.saveSettings(uid, settings);
+  showToast('رنگ تم تغییر کرد', 'info');
+}
+
+function openFocusMode() {
+  document.getElementById('focus-overlay').classList.add('open');
+  UIManager.updateFocusDisplay();
+}
+
+function closeFocus() {
+  document.getElementById('focus-overlay').classList.remove('open');
+}
+
+function toggleFocusTimer() { FocusManager.start(); }
+function resetFocusTimer() { FocusManager.reset(); }
+function togglePomodoro() { FocusManager.start(); UIManager.updatePomoDisplay(); }
+function resetPomodoro() { FocusManager.reset(); UIManager.updatePomoDisplay(); }
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function handleSearch(val) {
+  // Simple search indicator
+}
+
+// ===== AUTH FUNCTIONS =====
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.toggle('active', t.dataset.tab===tab));
+  document.getElementById('login-form').classList.toggle('hidden', tab!=='login');
+  document.getElementById('register-form').classList.toggle('hidden', tab!=='register');
+  document.getElementById('auth-error').classList.remove('show');
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+function handleLogin() {
+  const username = document.getElementById('login-username').value;
+  const password = document.getElementById('login-password').value;
+  if (!username || !password) { showAuthError('نام کاربری و رمز عبور الزامی هستند.'); return; }
+  const result = UserManager.login(username, password);
+  if (!result.ok) { showAuthError(result.msg); return; }
+  UserManager.setSession(result.user);
+  launchApp();
+}
+
+function handleRegister() {
+  const name = document.getElementById('reg-name').value;
+  const username = document.getElementById('reg-username').value;
+  const password = document.getElementById('reg-password').value;
+  const result = UserManager.register(name, username, password);
+  if (!result.ok) { showAuthError(result.msg); return; }
+  const loginResult = UserManager.login(username, password);
+  if (loginResult.ok) {
+    UserManager.setSession(loginResult.user);
+    AchievementManager.unlock(loginResult.user.id, 'first_day');
+    launchApp();
+  }
+}
+
+function handleLogout() {
+  if (!confirm('از حساب خارج می‌شوید؟')) return;
+  UserManager.clearSession();
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('auth-screen').classList.remove('hidden');
+  showToast('با موفقیت خارج شدید', 'info');
+}
+
+function launchApp() {
+  document.getElementById('auth-screen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  UIManager.init();
+  UIManager.renderAll();
+  navigateTo('home');
+  // Load settings
+  const uid = UserManager.current.id;
+  const settings = SettingsManager.getSettings(uid);
+  if (settings.accentColor) {
+    document.documentElement.style.setProperty('--primary', settings.accentColor);
+    document.documentElement.style.setProperty('--primary-dark', settings.accentColor);
+  }
+}
+
+// ===== TOAST =====
+function showToast(msg, type='info') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  const icons = { success:'✅', error:'❌', info:'ℹ️' };
+  const icon = document.createElement('span');
+  icon.className = 'toast-icon';
+  icon.textContent = icons[type] || 'ℹ️';
+  const text = document.createElement('span');
+  text.textContent = msg;
+  toast.appendChild(icon);
+  toast.appendChild(text);
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add('toast-exit');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+// ===== INIT =====
+(function init() {
+  // Show intro then check auth
+  setTimeout(() => {
+    document.getElementById('intro-overlay').classList.add('hidden');
+    // Try restore session
+    const user = UserManager.restoreSession();
+    if (user) {
+      launchApp();
+    } else {
+      document.getElementById('auth-screen').classList.remove('hidden');
+    }
+  }, 3400);
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeFocus();
+      document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+    }
+  });
+
+  // Auto-save on visibility change
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && UserManager.current) {
+      const uid = UserManager.current.id;
+      const today = Utils.getTodayKey();
+      const refl = document.getElementById('reflection-text');
+      const notes = document.getElementById('daily-notes');
+      if (refl || notes) {
+        const day = Planner.getDayData(uid, today);
+        if (refl) day.reflection = refl.value;
+        if (notes) day.notes = notes.value;
+        Planner.saveDayData(uid, today, day);
+      }
+    }
+  });
+
+  // Resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (UIManager.currentPage === 'analytics') UIManager.renderAnalytics();
+      if (UIManager.currentPage === 'weekly') UIManager.renderWeeklyReview();
+    }, 300);
+  });
+})();
+</script>
 </body>
 </html>
